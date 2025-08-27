@@ -214,6 +214,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &545819333 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1742118998429097290, guid: 5989d628310672c4d804594dcb6ff306, type: 3}
+  m_PrefabInstance: {fileID: 5032644683674373774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &917278068
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +408,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1889788884647039619, guid: 19f7b750cabc585489727325d647ad9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1498957288}
   m_SourcePrefab: {fileID: 100100000, guid: 19f7b750cabc585489727325d647ad9a, type: 3}
 --- !u!1 &1064595662
 GameObject:
@@ -530,6 +538,34 @@ Transform:
   - {fileID: 1658752617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1320750584 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3132676328173116345, guid: 19f7b750cabc585489727325d647ad9a, type: 3}
+  m_PrefabInstance: {fileID: 921657495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1498957287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1889788884647039619, guid: 19f7b750cabc585489727325d647ad9a, type: 3}
+  m_PrefabInstance: {fileID: 921657495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1498957288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498957287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc771a425819cc4fbaaaf7fac1f346f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  desiredRange: 10
+  player: {fileID: 545819333}
+  arrowPrefab: {fileID: 4397548503934682738, guid: 68f6b82bf5043f34ba94e5d271351935, type: 3}
+  firePoint: {fileID: 1320750584}
+  attackCooldown: 2
 --- !u!1 &1658752614
 GameObject:
   m_ObjectHideFlags: 0
