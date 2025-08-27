@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform firePoint;
 
+    private float minForce = 10f;
+    private float maxForce = 11f;
+    private float pressTime;
+    private float holdTime;
 
     void Start()
     {
@@ -27,7 +31,13 @@ public class PlayerController : MonoBehaviour
             Move();
 
         if (Input.GetKeyDown(KeyCode.Space))
+            pressTime = Time.time;
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            holdTime = Time.time - pressTime;
             Attack();
+        }
     }
 
     void Move()
@@ -45,7 +55,24 @@ public class PlayerController : MonoBehaviour
     {
         isAttack = true;
         animator.SetTrigger("doAttack");
-        // Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        
+    }
+
+    public void Shoot()
+    {
+        GameObject arrowObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Arrow arrow = arrowObj.GetComponent<Arrow>();
+
+        float normalized = Mathf.Clamp01(holdTime / 2f); // 최대 2초 차징
+        float power = Mathf.Lerp(minForce, maxForce, normalized);
+
+        Debug.Log(power);
+
+        // 발사 방향 = 플레이어 바라보는 방향
+        Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
+        arrow.Launch(direction * power);
+
+        isAttack = false;
     }
 
     void FixedUpdate()
