@@ -5,12 +5,14 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 2f;
-    public float desiredRange = 5f; // 플레이어와 유지할 거리
+    public float moveSpeed = 5f;
+    public float minimumRange = 7f;
+    public float maximumRange = 15f; // 플레이어와 유지할 거리
+    private float moveX = 0f;
     public Transform player;
 
     [Header("Attack")]
-    public GameObject arrowPrefab;
+    public GameObject projectilePrefab;
     public Transform firePoint;
     public float attackCooldown = 2f;
 
@@ -20,11 +22,16 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        // player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+
+
         StartCoroutine(AIBehavior());
+    }
+
+    private void Update()
+    {
     }
 
     IEnumerator AIBehavior()
@@ -34,20 +41,27 @@ public class EnemyAI : MonoBehaviour
             yield return new WaitForSeconds(0.3f); // 0.3초마다 거리 계산
 
             if (player == null) continue;
+            if (!canAttack) continue;
 
-            float distanceX = player.position.x - transform.position.x;
+            float distanceX = Mathf.Abs(player.position.x - transform.position.x);
 
-            if (Mathf.Abs(distanceX) > desiredRange)
+            if (distanceX > maximumRange)
             {
-                Debug.Log("이동");
                 animator.SetBool("isWalk", true);
-                float moveDir = Mathf.Sign(distanceX); // -1: 왼쪽, 1: 오른쪽
-                // rb.MovePosition(rb.position + new Vector2(moveDir * moveSpeed * Time.deltaTime, 0));
-                transform.localScale = new Vector3(-moveDir, 1, 1);
+                moveX = -1;
+                transform.localScale = new Vector3(-moveX, 1, 1);
+            }
+            else if (distanceX < minimumRange)
+            {
+                animator.SetBool("isWalk", true);
+                moveX = 1;
+                transform.localScale = new Vector3(-moveX, 1, 1);
             }
             else
             {
-                Debug.Log("공격");
+                animator.SetBool("isWalk", false);
+                moveX = 0;
+                
                 if (canAttack)
                     StartCoroutine(Attack());
             }
@@ -57,15 +71,35 @@ public class EnemyAI : MonoBehaviour
     IEnumerator Attack()
     {
         canAttack = false;
+        transform.localScale = new Vector3(1, 1, 1);
 
-        // 화살 발사
-        GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
-        Arrow arrow = arrowObj.GetComponent<Arrow>();
-        Vector2 direction = new Vector2(Mathf.Sign(player.position.x - transform.position.x), 0).normalized;
-        // arrow.shooterTag = "Enemy";
-        arrow.Launch(direction * 10f);
+        animator.SetTrigger("doAttack");
 
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+    }
+
+    public void Shoot()
+    {
+        GameObject arrowObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Arrow arrow = arrowObj.GetComponent<Arrow>();
+
+        // 발사 방향 = 플레이어 바라보는 방향
+        Vector2 direction = new Vector2(-1f, 1f).normalized;
+        arrow.Launch(direction * 10f);
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + new Vector2(moveX / 5, 0) * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            moveX = 0;
+            animator.SetBool("isWalk", false);
+        }
     }
 }
