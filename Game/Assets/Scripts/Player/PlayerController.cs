@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float pressTime;
     private float holdTime;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Attack()
+    public void Attack()
     {
         isAttack = true;
         animator.SetTrigger("doAttack");
@@ -71,17 +72,22 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
-        Arrow arrow = arrowObj.GetComponent<Arrow>();
+        if (!isUseSkill)
+        {
+            GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
+            Arrow arrow = arrowObj.GetComponent<Arrow>();
 
-        float normalized = Mathf.Clamp01(holdTime / 2f);
-        float power = Mathf.Lerp(minForce, maxForce, normalized);
+            float normalized = Mathf.Clamp01(holdTime / 2f);
+            float power = Mathf.Lerp(minForce, maxForce, normalized);
 
-        Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
-        arrow.shooter = gameObject;
-        arrow.Launch(direction * power, 10 /* 변경 필요!! */);
+            Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
+            arrow.shooter = gameObject;
+            arrow.Launch(direction * power, 10 /* 변경 필요!! */);
 
-        isAttack = false;
+            isAttack = false;
+
+            StopSkill();
+        }
     }
 
     void FixedUpdate()

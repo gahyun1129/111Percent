@@ -21,17 +21,14 @@ public class SkillManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(3);
         }
         if ( hp.GetHP() <= 0 && hp.HasReviveChance())

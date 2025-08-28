@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Arrow Rain
   icon: {fileID: 0}
-  cooldown: 0
+  cooldown: 20
   arrowPrefab: {fileID: 4397548503934682738, guid: 68f6b82bf5043f34ba94e5d271351935, type: 3}
+  RainArrowPrefab: {fileID: 4397548503934682738, guid: 3642935955c1ee543b0b27f1d2de9694, type: 3}
   damage: 20
+  speed: 20
+  arrowCount: 10
+  delayBetween: 0.2
+  center: 5.5
+  size: 6
+  spawnHeight: 5

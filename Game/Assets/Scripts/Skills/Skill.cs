@@ -11,7 +11,7 @@ public abstract class Skill : ScriptableObject
 
     public virtual bool CanUse()
     {
-        return true/*Time.time >= lastUseTime + cooldown*/;
+        return Time.time >= lastUseTime + cooldown;
     }
 
     public void Use(GameObject user)

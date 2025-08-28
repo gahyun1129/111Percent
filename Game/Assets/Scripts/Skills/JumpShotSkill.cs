@@ -8,45 +8,60 @@ public class JumpShotSkill : Skill
     public GameObject arrowPrefab;
     public float jumpForce = 20f;
     public int damage = 20;
+    public float arrowSpeed = 25f;
 
     protected override void Activate(GameObject user)
     {
-        Rigidbody2D rb = user.GetComponent<Rigidbody2D>();
-        if ( rb != null)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-
+       
         user.GetComponent<PlayerController>().StartCoroutine(FireDelayed(user));
     }
 
     private System.Collections.IEnumerator FireDelayed(GameObject user)
     {
-        yield return new WaitForSeconds(0.5f);
-
-        Transform firePoint = user.transform.Find("Fire Point");
-        if ( firePoint != null)
+        Rigidbody2D rb = user.GetComponent<Rigidbody2D>();
+        if (rb != null)
         {
-            GameObject arrow = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
-            arrow.GetComponent<Arrow>().SetDamage(damage);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+
+        yield return new WaitForSeconds(0.1f);
+
+        rb.gravityScale = 0f;   // 중력 꺼서 공중 정지
+        rb.velocity = Vector2.zero; // 혹시 남은 속도 제거
+
+        user.GetComponent<PlayerController>().UseSkill();
+
+        user.GetComponent<Animator>().SetTrigger("doAttack");
+
+        yield return new WaitForSeconds(1f);
+
+        Transform firePoint = user.GetComponent<PlayerController>().GetFirePoint();
+        GameObject enemy = GameManager.Instance.GetEnemy();
+
+        Vector2 start = firePoint.position;
+        Vector2 target = enemy.transform.position;
+        Vector2 dir = (target - start + new Vector2(0, 1f)).normalized;
+
+        GameObject arrow = Instantiate(arrowPrefab, start, Quaternion.identity);
+        var arrowRb = arrow.GetComponent<Rigidbody2D>();
+
+        arrowRb.gravityScale = 0f;
+        arrowRb.velocity = dir * arrowSpeed;
+
+        float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        arrow.transform.rotation = Quaternion.AngleAxis(ang, Vector3.forward);
+
+        var arrowComp = arrow.GetComponent<Arrow>();
+        if (arrowComp != null)
+        {
+            arrowComp.SetDamage(damage);
+            arrowComp.shooter = user;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        rb.gravityScale = 3f;
+
+
     }
 }
-
-/*
- 
-    코루틴으로 그냥 만들기로 할게요
-
-    coroutin
-        점프
-        점프 후 중력 끄기 // 떨어지지 않음
-        
-        enemy 위치 찾고 그 방향으로 활 조준 후 슛
-        이떄 애니메이션도 위에서 실행되면 좋겠음
-        
-        그 후엔 다시 중력 켜기
-        // 떨어짐
-        
-        캐릭터 stopskill 함수 부르기
- 
- */
