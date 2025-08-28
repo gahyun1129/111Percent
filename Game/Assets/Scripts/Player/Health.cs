@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     private float currentHealth = 100f;
     private Animator animator;
 
+    bool hasReviveChance = true;
     void Awake()
     {
         currentHealth = maxHealth;
@@ -39,7 +40,22 @@ public class Health : MonoBehaviour
     void Die()
     {
         animator.SetTrigger("doDie");
-        Destroy(gameObject, 3f);
-        GameManager.Instance.GameEnd(gameObject.tag);
+
+        if (!hasReviveChance)
+        {
+            GameManager.Instance.GameEnd(gameObject.tag);
+            Destroy(gameObject, 3f);
+        }
+
+    }
+
+    public bool HasReviveChance() => hasReviveChance;
+
+    public void Revive(int reviveHealth)
+    {
+        animator.SetTrigger("doRevive");
+        currentHealth = reviveHealth;
+        UIManager.Instance.UpdateHPUI();
+        hasReviveChance = false;
     }
 }

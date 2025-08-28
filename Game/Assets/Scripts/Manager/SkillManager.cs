@@ -5,6 +5,12 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public Skill[] equippedSkills;
+    Health hp;
+
+    private void Start()
+    {
+        hp = gameObject.GetComponent<Health>();
+    }
 
     void Update()
     {
@@ -17,6 +23,20 @@ public class SkillManager : MonoBehaviour
         {
             // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // gameObject.GetComponent<PlayerController>().UseSkill();
+            UseSkill(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // gameObject.GetComponent<PlayerController>().UseSkill();
+            UseSkill(3);
+        }
+        if ( hp.GetHP() <= 0 && hp.HasReviveChance())
+        {
+            UseSkill(4);
         }
     }
 
