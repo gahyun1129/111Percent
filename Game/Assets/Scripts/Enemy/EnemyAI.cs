@@ -30,10 +30,6 @@ public class EnemyAI : MonoBehaviour
         StartCoroutine(AIBehavior());
     }
 
-    private void Update()
-    {
-    }
-
     IEnumerator AIBehavior()
     {
         while (true)
@@ -86,6 +82,7 @@ public class EnemyAI : MonoBehaviour
 
         // 발사 방향 = 플레이어 바라보는 방향
         Vector2 direction = new Vector2(-1f, 1f).normalized;
+        arrow.shooter = gameObject;
         arrow.Launch(direction * 10f);
     }
 

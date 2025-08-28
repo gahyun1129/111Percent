@@ -66,10 +66,9 @@ public class PlayerController : MonoBehaviour
         float normalized = Mathf.Clamp01(holdTime / 2f); // 최대 2초 차징
         float power = Mathf.Lerp(minForce, maxForce, normalized);
 
-        Debug.Log(power);
-
         // 발사 방향 = 플레이어 바라보는 방향
         Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
+        arrow.shooter = gameObject;
         arrow.Launch(direction * power);
 
         isAttack = false;

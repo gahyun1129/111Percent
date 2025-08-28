@@ -6,6 +6,7 @@ public class Arrow : MonoBehaviour
 {
     public float lifeTime = 5f;       // 자동 파괴 시간
     private Rigidbody2D rb;
+    public GameObject shooter;
 
     void Awake()
     {
@@ -29,19 +30,24 @@ public class Arrow : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("적 맞음!");
-            // 적 체력 깎는 로직 연결 (Enemy 스크립트의 TakeDamage 호출 등)
-        }
-        else if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             rb.velocity = Vector2.zero;
             rb.isKinematic = true; // 물리 영향 안 받음
             rb.simulated = false;  // 물리 계산 멈춤 (옵션)
+        }
+        else if (shooter.CompareTag("player") && collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log(collision.gameObject.name);
+            collision.gameObject.GetComponent<Health>().TakeDamage(10);
+            Destroy(gameObject);
+        }
+        else if (shooter.CompareTag("Enemy") && collision.gameObject.CompareTag("player"))
+        {
+            collision.gameObject.GetComponent<Health>().TakeDamage(10);
+            Destroy(gameObject);
         }
     }
 }
