@@ -6,8 +6,8 @@ public class EnemyAI : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
-    public float minimumRange = 7f;
-    public float maximumRange = 15f; // 플레이어와 유지할 거리
+    public float minimumRange = 5f;
+    public float maximumRange = 8f; // 플레이어와 유지할 거리
     private float moveX = 0f;
     public Transform player;
 
@@ -21,12 +21,12 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private bool canAttack = true;
 
+    private bool isFreeze = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-
 
         StartCoroutine(AIBehavior());
     }
@@ -39,6 +39,12 @@ public class EnemyAI : MonoBehaviour
 
             if (player == null) continue;
             if (!canAttack) continue;
+            if (isFreeze)
+            {
+                animator.SetBool("isWalk", false);
+                moveX = 0;
+                continue;
+            }
 
             float distanceX = Mathf.Abs(player.position.x - transform.position.x);
 
@@ -104,5 +110,19 @@ public class EnemyAI : MonoBehaviour
     public void WinPerformance()
     {
         animator.SetTrigger("doVictory");
+    }
+
+    public void SetFreezeState(bool _freeze)
+    {
+        isFreeze = _freeze;
+
+        if (_freeze)
+        {
+            gameObject.transform.Find("Ice").gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.transform.Find("Ice").gameObject.SetActive(false);
+        }
     }
 }

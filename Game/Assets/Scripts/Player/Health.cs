@@ -54,6 +54,7 @@ public class Health : MonoBehaviour
     public void Revive(int reviveHealth)
     {
         animator.SetTrigger("doRevive");
+
         currentHealth = reviveHealth;
         UIManager.Instance.UpdateHPUI();
         hasReviveChance = false;

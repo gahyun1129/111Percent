@@ -24,12 +24,12 @@ public class SkillManager : MonoBehaviour
             // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(2);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             // gameObject.GetComponent<PlayerController>().UseSkill();
             UseSkill(3);

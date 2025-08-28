@@ -33,4 +33,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameObject GetEnemy() => Enemy;
+
 }

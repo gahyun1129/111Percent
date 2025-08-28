@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreezeSkill : MonoBehaviour
+[CreateAssetMenu(menuName = "Skills/Freeze")]
+public class FreezeSkill : Skill
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private float holdingTime = 3f;
+
+    protected override void Activate(GameObject user)
     {
-        
+        user.GetComponent<PlayerController>().StartCoroutine(FreezeEnemy(user));
     }
 
-    // Update is called once per frame
-    void Update()
+    private System.Collections.IEnumerator FreezeEnemy(GameObject user)
     {
-        
+        GameManager.Instance.GetEnemy().GetComponent<EnemyAI>().SetFreezeState(true);
+
+        yield return new WaitForSeconds(holdingTime);
+
+        GameManager.Instance.GetEnemy().GetComponent<EnemyAI>().SetFreezeState(false);
+
     }
 }
