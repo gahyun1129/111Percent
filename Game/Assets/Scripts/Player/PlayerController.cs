@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private bool isAttack = false;
+    private bool isUseSkill = false;
 
-    public GameObject projectilePrefab;
+    public GameObject arrowPrefab;
     public Transform firePoint;
 
     private float minForce = 10f;
@@ -58,15 +59,24 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void UseSkill()
+    {
+        isUseSkill = true;
+    }
+
+    public void StopSkill()
+    {
+        isUseSkill = false;
+    }
+
     public void Shoot()
     {
-        GameObject arrowObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
         Arrow arrow = arrowObj.GetComponent<Arrow>();
 
-        float normalized = Mathf.Clamp01(holdTime / 2f); // 최대 2초 차징
+        float normalized = Mathf.Clamp01(holdTime / 2f);
         float power = Mathf.Lerp(minForce, maxForce, normalized);
 
-        // 발사 방향 = 플레이어 바라보는 방향
         Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
         arrow.shooter = gameObject;
         arrow.Launch(direction * power, 10 /* 변경 필요!! */);
@@ -76,7 +86,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + new Vector2(moveX, 0) * moveSpeed * Time.fixedDeltaTime);
+        if (!isUseSkill)
+        {
+            rb.MovePosition(rb.position + new Vector2(moveX, 0) * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
     public void WinPerformance()

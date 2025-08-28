@@ -24,7 +24,10 @@ public class Arrow : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
-
+    public void SetDamage(int damage)
+    {
+        this.damage = damage;
+    }
     void Update()
     {
         if (rb.velocity.magnitude > 0.1f)
@@ -50,6 +53,11 @@ public class Arrow : MonoBehaviour
         else if (shooter.CompareTag("Enemy") && collision.gameObject.CompareTag("player"))
         {
             collision.gameObject.GetComponent<Health>().TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else if ( shooter.CompareTag("Enemy") && collision.gameObject.CompareTag("Shield"))
+        {
+            // 몬가 여기서 효과를 주면 좋겠다 슁~~ 해서 막는 느낌?
             Destroy(gameObject);
         }
     }
