@@ -122,6 +122,78 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &292518445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 292518448}
+  - component: {fileID: 292518447}
+  - component: {fileID: 292518446}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &292518446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292518445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d045b3bbb7d794798f5cc23b76c020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1537165399}
+  Enemy: {fileID: 1498957287}
+--- !u!114 &292518447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292518445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76da83bfaa1b18645bcce7624346c458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHPBarUI: {fileID: 1033362942}
+  enemyHPBarUI: {fileID: 443508462}
+  playerHPUI: {fileID: 1946374845}
+  enemyHPUI: {fileID: 1089967946}
+  Player: {fileID: 1537165399}
+  Enemy: {fileID: 1498957287}
+  timeUI: {fileID: 861003843}
+  Skills:
+  - {fileID: 1773983154}
+  - {fileID: 1377715036}
+  - {fileID: 1004410274}
+  - {fileID: 1328274925}
+  - {fileID: 414475694}
+--- !u!4 &292518448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292518445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &313922418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,6 +1968,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4397548503934682738, guid: 68f6b82bf5043f34ba94e5d271351935, type: 3}
   firePoint: {fileID: 1320750584}
   attackCooldown: 3
+  attackDamage: 10
 --- !u!114 &1498957293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2808,6 +2881,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 2078213898}
+  - {fileID: 292518448}
   - {fileID: 1064595665}
   - {fileID: 5032644683674373774}
   - {fileID: 921657495}

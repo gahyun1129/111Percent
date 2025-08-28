@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float attackCooldown = 2f;
+    public int attackDamage = 10;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -83,7 +84,7 @@ public class EnemyAI : MonoBehaviour
         // 발사 방향 = 플레이어 바라보는 방향
         Vector2 direction = new Vector2(-1f, 1f).normalized;
         arrow.shooter = gameObject;
-        arrow.Launch(direction * 10f);
+        arrow.Launch(direction * 10f, attackDamage);
     }
 
     void FixedUpdate()
@@ -98,5 +99,10 @@ public class EnemyAI : MonoBehaviour
             moveX = 0;
             animator.SetBool("isWalk", false);
         }
+    }
+
+    public void WinPerformance()
+    {
+        animator.SetTrigger("doVictory");
     }
 }

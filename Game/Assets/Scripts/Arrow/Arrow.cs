@@ -8,15 +8,18 @@ public class Arrow : MonoBehaviour
     private Rigidbody2D rb;
     public GameObject shooter;
 
+    public int damage = 10;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifeTime); // 일정 시간 뒤 자동 삭제
     }
 
-    public void Launch(Vector2 direction)
+    public void Launch(Vector2 direction, int _damage)
     {
         rb.AddForce(direction, ForceMode2D.Impulse);
+        damage = _damage;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -41,12 +44,12 @@ public class Arrow : MonoBehaviour
         else if (shooter.CompareTag("player") && collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log(collision.gameObject.name);
-            collision.gameObject.GetComponent<Health>().TakeDamage(10);
+            collision.gameObject.GetComponent<Health>().TakeDamage(damage);
             Destroy(gameObject);
         }
         else if (shooter.CompareTag("Enemy") && collision.gameObject.CompareTag("player"))
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage(10);
+            collision.gameObject.GetComponent<Health>().TakeDamage(damage);
             Destroy(gameObject);
         }
     }

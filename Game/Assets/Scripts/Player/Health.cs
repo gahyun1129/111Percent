@@ -4,21 +4,33 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int currentHealth;
+    public float maxHealth = 100f;
+    private float currentHealth = 100f;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
 
+    public int GetHP()
+    {
+         return (int)currentHealth;
+    }
+
+    public float GetMAXHP()
+    {
+        return maxHealth;
+    }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log(gameObject.name + " 남은 체력: " + currentHealth);
+
         animator.SetTrigger("doDamaged");
+
+        UIManager.Instance.UpdateHPUI();
 
         if (currentHealth <= 0)
             Die();
@@ -26,8 +38,8 @@ public class Health : MonoBehaviour
 
     void Die()
     {
-        Debug.Log(gameObject.name + " 사망!");
         animator.SetTrigger("doDie");
         Destroy(gameObject, 3f);
+        GameManager.Instance.GameEnd(gameObject.tag);
     }
 }

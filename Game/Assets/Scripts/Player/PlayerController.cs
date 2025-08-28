@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         // 발사 방향 = 플레이어 바라보는 방향
         Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
         arrow.shooter = gameObject;
-        arrow.Launch(direction * power);
+        arrow.Launch(direction * power, 10 /* 변경 필요!! */);
 
         isAttack = false;
     }
@@ -77,5 +77,10 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + new Vector2(moveX, 0) * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    public void WinPerformance()
+    {
+        animator.SetTrigger("doVictory");
     }
 }
