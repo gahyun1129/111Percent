@@ -96,4 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("doVictory");
     }
+
+    public Transform GetFirePoint() => firePoint;
 }
