@@ -33,6 +33,11 @@ public class Health : MonoBehaviour
 
         UIManager.Instance.UpdateHPUI();
 
+        if (gameObject.CompareTag("player"))
+        {
+            StartCoroutine(UIManager.Instance.ShowDamagedImage());
+        }
+
         if (currentHealth <= 0)
             Die();
     }
@@ -41,7 +46,7 @@ public class Health : MonoBehaviour
     {
         animator.SetTrigger("doDie");
 
-        if (!hasReviveChance)
+        if (gameObject.CompareTag("Enemy") || !hasReviveChance)
         {
             GameManager.Instance.GameOver(gameObject.tag);
             Destroy(gameObject, 3f);

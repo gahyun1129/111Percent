@@ -13,6 +13,7 @@ public class ReviveSkill : Skill
         if (hp != null && hp.GetHP() <= 0)
         {
             hp.Revive(reviveHealth);
+            user.GetComponent<PlayerController>().ReviveParticle.SetActive(true);
         }
     }
 

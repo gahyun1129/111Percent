@@ -19,6 +19,8 @@ public class JumpShotSkill : Skill
     private System.Collections.IEnumerator FireDelayed(GameObject user)
     {
         Rigidbody2D rb = user.GetComponent<Rigidbody2D>();
+
+
         if (rb != null)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -29,7 +31,7 @@ public class JumpShotSkill : Skill
         rb.gravityScale = 0f;   // 중력 꺼서 공중 정지
         rb.velocity = Vector2.zero; // 혹시 남은 속도 제거
 
-        user.GetComponent<PlayerController>().UseSkill();
+        // user.GetComponent<PlayerController>().UseSkill();
 
         user.GetComponent<Animator>().SetTrigger("doAttack");
 
@@ -58,10 +60,11 @@ public class JumpShotSkill : Skill
             arrowComp.shooter = user;
         }
 
-        user.GetComponent<PlayerController>().StopSkill();
+        // user.GetComponent<PlayerController>().StopSkill();
         yield return new WaitForSeconds(0.1f);
 
-        rb.gravityScale = 3f;
+        rb.gravityScale = 1f;
+
         lastUseTime = GameManager.Instance.GameTime;
 
     }

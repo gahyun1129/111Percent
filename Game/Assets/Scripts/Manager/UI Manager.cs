@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Text countDownText;
+    public TextMeshProUGUI countDownText;
 
     private bool isTimerActive = false;
     private float gameDuration = 90f;
@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public Slider ChargingBar;
     public GameObject ChargingMax;
 
+    public GameObject damagedImg;
 
     public static UIManager Instance { get; private set; }
 
@@ -154,4 +155,32 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator ShowDamagedImage()
+    {
+        damagedImg.SetActive(true);
+
+        Vector3 originalScale = damagedImg.transform.localScale;
+        Vector3 originalPosition = playerHPBarUI.transform.localPosition;
+        float duration = 0.3f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float scale = Mathf.Sin(elapsed) + 0.9f;
+            float newPos = Mathf.Sin(elapsed * 20) * 2;
+
+            playerHPBarUI.gameObject.transform.localPosition = originalPosition + new Vector3(0, newPos, 0); 
+            damagedImg.transform.localScale = originalScale * scale;
+
+            yield return null;
+        }
+
+        // 원래 크기로 복구
+        damagedImg.transform.localScale = originalScale;
+        playerHPBarUI.transform.localPosition = originalPosition;
+
+        damagedImg.SetActive(false);
+    }
 }

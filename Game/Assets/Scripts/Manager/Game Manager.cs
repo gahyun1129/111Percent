@@ -52,13 +52,16 @@ public class GameManager : MonoBehaviour
     public void GameOver(string loser)
     {
         state = GameState.GameOver;
+        UIManager.Instance.countDownText.gameObject.SetActive(true);
         if (loser == "Enemy")
         {
             Player.GetComponent<PlayerController>().WinPerformance();
+            UIManager.Instance.countDownText.text = "VICTORY";
         }
         else if (loser == "player")
         {
             Enemy.GetComponent<EnemyAI>().WinPerformance();
+            UIManager.Instance.countDownText.text = "LOSE...";
         }
     }
 

@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     private float pressTime;
     public float holdTime;
     private bool isCharging = false;
-    
 
+    public GameObject ReviveParticle;
 
     void Start()
     {
