@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState {PreGame, Playing, GameOver};
+
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     public GameObject Player;
     public GameObject Enemy;
 
-    public static GameManager Instance { get; private set; }
+
+    public GameState state = GameState.PreGame;
+    private float gameTime = 0f;
 
 
     private void Awake()
@@ -21,8 +27,31 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void GameEnd(string loser)
+    private void Start()
     {
+        StartCoroutine(UIManager.Instance.ShowCountdown(3));
+    }
+
+    private void Update()
+    {
+        if (state == GameState.Playing)
+        {
+            gameTime += Time.deltaTime;
+        }
+    }
+
+    public void StartGameRoutine()
+    { 
+        gameTime = 0f;
+        state = GameState.Playing;
+
+        UIManager.Instance.StartGameTimer();
+    }
+
+
+    public void GameOver(string loser)
+    {
+        state = GameState.GameOver;
         if (loser == "Enemy")
         {
             Player.GetComponent<PlayerController>().WinPerformance();
@@ -33,6 +62,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsPlaying => state == GameState.Playing;
+    public float GameTime => gameTime;
     public GameObject GetEnemy() => Enemy;
+    public GameObject GetPlayer() => Player;    
 
 }

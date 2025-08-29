@@ -21,6 +21,6 @@ public class ShieldSkill : Skill
         yield return new WaitForSeconds(holdingTime);
 
         user.transform.Find("Shield").gameObject.SetActive(false);
-        lastUseTime = Time.time;
+        lastUseTime = GameManager.Instance.GameTime;
     }
 }

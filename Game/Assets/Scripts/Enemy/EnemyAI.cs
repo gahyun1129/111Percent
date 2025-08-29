@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour
         {
             yield return new WaitForSeconds(0.3f); // 0.3초마다 거리 계산
 
+            if (!GameManager.Instance.IsPlaying) continue;
             if (player == null) continue;
             if (!canAttack) continue;
             if (isFreeze)
@@ -64,7 +65,7 @@ public class EnemyAI : MonoBehaviour
             {
                 animator.SetBool("isWalk", false);
                 moveX = 0;
-                
+
                 if (canAttack)
                     StartCoroutine(Attack());
             }

@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
     private float minForce = 10f;
     private float maxForce = 11f;
     private float pressTime;
-    private float holdTime;
+    public float holdTime;
+    private bool isCharging = false;
+    
 
 
     void Start()
@@ -33,13 +35,27 @@ public class PlayerController : MonoBehaviour
             Move();
 
         if (Input.GetKeyDown(KeyCode.Space))
-            pressTime = Time.time;
-
+        {
+            pressTime = GameManager.Instance.GameTime;
+            gameObject.GetComponent<ArrowChargingBar>().ShowChargingBar();
+            isCharging = true;
+        }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            holdTime = Time.time - pressTime;
+            isCharging = false;
+            holdTime = GameManager.Instance.GameTime - pressTime;
             Attack();
+            Invoke("HideChargingBar", 2f);
         }
+        if (isCharging)
+        {
+            holdTime = GameManager.Instance.GameTime - pressTime;
+        }
+    }
+
+    void HideChargingBar()
+    {
+        gameObject.GetComponent<ArrowChargingBar>().HideChargingBar();
     }
 
     void Move()

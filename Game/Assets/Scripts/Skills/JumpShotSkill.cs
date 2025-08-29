@@ -62,7 +62,7 @@ public class JumpShotSkill : Skill
         yield return new WaitForSeconds(0.1f);
 
         rb.gravityScale = 3f;
-        lastUseTime = Time.time;
+        lastUseTime = GameManager.Instance.GameTime;
 
     }
 }

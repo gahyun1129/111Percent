@@ -10,7 +10,7 @@ public abstract class Skill : ScriptableObject
 
     public virtual bool CanUse()
     {
-        return Time.time >= lastUseTime + cooldown;
+        return GameManager.Instance.GameTime >= lastUseTime + cooldown;
     }
 
     public void Use(GameObject user)
@@ -28,14 +28,14 @@ public abstract class Skill : ScriptableObject
 
     public float GetRemainTime()
     {
-        float elapsed = Time.time - lastUseTime;     // 지난 시간
+        float elapsed = GameManager.Instance.GameTime - lastUseTime;     // 지난 시간
         float remaining = cooldown - elapsed;            // 남은 시간
         return Mathf.Max(remaining, 0f);
     }
 
     public void ResetLastUseTime()
     {
-        lastUseTime = Time.time;
+        lastUseTime = GameManager.Instance.GameTime;
     }
     protected abstract void Activate(GameObject user);
 }

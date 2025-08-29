@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public Text countDownText;
+
+    private bool isTimerActive = false;
+    private float gameDuration = 90f;
+
     public Slider playerHPBarUI;
     public Slider enemyHPBarUI;
 
@@ -20,6 +26,9 @@ public class UIManager : MonoBehaviour
     public Slider[] ActiveSkillsSlider;
 
     public GameObject PassiveSkillImage;
+
+    public Slider ChargingBar;
+    public GameObject ChargingMax;
 
 
     public static UIManager Instance { get; private set; }
@@ -44,18 +53,48 @@ public class UIManager : MonoBehaviour
         enemyHPUI.text = Enemy.GetComponent<Health>().GetHP().ToString();
 
         timeUI.text = "90";
+
     }
 
     private void Update()
     {
-        timeUI.text = (90 - (int)Time.time).ToString();
 
-        if (timeUI.text == "0")
+        if (!isTimerActive) return;
+
+        float remaining = gameDuration - GameManager.Instance.GameTime;
+        timeUI.text = Mathf.CeilToInt(remaining).ToString();
+
+        if ( remaining <= 0)
         {
-            GameManager.Instance.GameEnd(Enemy.tag);
+            isTimerActive = false;
+            GameManager.Instance.GameOver("Enemy");
         }
 
         UpdateActiveSkills();
+    }
+
+    public IEnumerator ShowCountdown(int seconds)
+    {
+        int count = seconds;
+
+        while( count > 0)
+        {
+            countDownText.text = count.ToString();
+            yield return new WaitForSeconds(1f);
+            count--;
+        }
+
+        countDownText.text = "Start!";
+        yield return new WaitForSecondsRealtime(1f);
+
+        countDownText.gameObject.SetActive(false);
+
+        GameManager.Instance.StartGameRoutine();
+    }
+
+    public void StartGameTimer()
+    {
+        isTimerActive=true;
     }
 
     public void UpdateHPUI()
@@ -99,6 +138,20 @@ public class UIManager : MonoBehaviour
     public void UpdatePassiveSkill()
     {
         PassiveSkillImage.SetActive(true);
+    }
+
+    public void UpdateChargingBar(float value)
+    {
+        ChargingBar.value = value;
+
+        if ( value >= 1f)
+        {
+            ChargingMax.SetActive(true);   
+        }
+        else
+        {
+            ChargingMax.SetActive(false);
+        }
     }
 
 }

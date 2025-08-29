@@ -43,7 +43,7 @@ public class Health : MonoBehaviour
 
         if (!hasReviveChance)
         {
-            GameManager.Instance.GameEnd(gameObject.tag);
+            GameManager.Instance.GameOver(gameObject.tag);
             Destroy(gameObject, 3f);
         }
 

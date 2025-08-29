@@ -44,7 +44,7 @@ public class ArrowRainSkill : Skill
         }
 
         yield return new WaitForSeconds(2f);
-        lastUseTime = Time.time;
+        lastUseTime = GameManager.Instance.GameTime;
 
     }
 }
