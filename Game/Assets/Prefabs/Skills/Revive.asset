@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Revive
   m_EditorClassIdentifier: 
   skillName: Revive
-  icon: {fileID: 0}
-  cooldown: 1000
+  cooldown: 0
   reviveHealth: 40

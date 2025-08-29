@@ -20,6 +20,7 @@ public class FreezeSkill : Skill
         yield return new WaitForSeconds(holdingTime);
 
         GameManager.Instance.GetEnemy().GetComponent<EnemyAI>().SetFreezeState(false);
+        lastUseTime = Time.time;
 
     }
 }

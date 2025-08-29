@@ -7,41 +7,63 @@ public class SkillManager : MonoBehaviour
     public Skill[] equippedSkills;
     Health hp;
 
+    public static SkillManager Instance { get; private set; }
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     private void Start()
     {
         hp = gameObject.GetComponent<Health>();
+        for ( int i = 0; i < equippedSkills.Length; ++i )
+        {
+            equippedSkills[i].ResetLastUseTime();
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            gameObject.GetComponent<PlayerController>().UseSkill();
-            UseSkill(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            UseSkill(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            UseSkill(2);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            UseSkill(3);
-        }
         if ( hp.GetHP() <= 0 && hp.HasReviveChance())
         {
             UseSkill(4);
+            UIManager.Instance.UpdatePassiveSkill();
         }
     }
 
-    void UseSkill(int index)
+    public void UseSkill(int index)
     {
         if (index < equippedSkills.Length && equippedSkills[index] != null)
         {
             equippedSkills[index].Use(gameObject);
         }
+    }
+
+    public float GetCoolTime(int index)
+    {
+        if (index < equippedSkills.Length && equippedSkills[index] != null)
+        {
+            return equippedSkills[index].GetCoolDown();
+        }
+
+        return -1f;
+    }
+
+    public float GetRemainTime(int index)
+    {
+        if (index < equippedSkills.Length && equippedSkills[index] != null)
+        {
+            return equippedSkills[index].GetRemainTime();
+        }
+
+        return -1f;
     }
 }

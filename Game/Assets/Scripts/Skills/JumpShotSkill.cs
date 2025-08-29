@@ -58,10 +58,11 @@ public class JumpShotSkill : Skill
             arrowComp.shooter = user;
         }
 
+        user.GetComponent<PlayerController>().StopSkill();
         yield return new WaitForSeconds(0.1f);
 
         rb.gravityScale = 3f;
-
+        lastUseTime = Time.time;
 
     }
 }

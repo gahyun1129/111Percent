@@ -16,7 +16,11 @@ public class UIManager : MonoBehaviour
 
     public Text timeUI;
 
-    public Button[] Skills;
+    public Text[] ActiveSkillsText;
+    public Slider[] ActiveSkillsSlider;
+
+    public GameObject PassiveSkillImage;
+
 
     public static UIManager Instance { get; private set; }
 
@@ -50,6 +54,8 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.GameEnd(Enemy.tag);
         }
+
+        UpdateActiveSkills();
     }
 
     public void UpdateHPUI()
@@ -59,6 +65,40 @@ public class UIManager : MonoBehaviour
 
         playerHPUI.text = Player.GetComponent<Health>().GetHP().ToString();
         enemyHPUI.text = Enemy.GetComponent<Health>().GetHP().ToString();
+    }
+
+    public void OnSkillButtonClick(int index)
+    {
+        SkillManager.Instance.UseSkill(index);
+    }
+
+    public void UpdateActiveSkills()
+    {
+        for ( int i = 0; i < ActiveSkillsSlider.Length; ++i)
+        {
+            float coolTime = SkillManager.Instance.GetCoolTime(i);
+            float remainTime = Mathf.CeilToInt(SkillManager.Instance.GetRemainTime(i));
+            if ( coolTime <= -1f) continue;
+
+            if (remainTime == 0)
+            {
+                ActiveSkillsSlider[i].value = remainTime / coolTime;
+                ActiveSkillsText[i].enabled = false;
+            }
+            else
+            {
+                ActiveSkillsText[i].enabled = true;
+                ActiveSkillsSlider[i].value = remainTime / coolTime;
+                ActiveSkillsText[i].text = remainTime.ToString();
+            }
+
+
+        }
+    }
+
+    public void UpdatePassiveSkill()
+    {
+        PassiveSkillImage.SetActive(true);
     }
 
 }

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Jump Shot
   m_EditorClassIdentifier: 
   skillName: JumpShot
-  icon: {fileID: 0}
-  cooldown: 15
+  cooldown: 5
   arrowPrefab: {fileID: 4397548503934682738, guid: 68f6b82bf5043f34ba94e5d271351935, type: 3}
   jumpForce: 20
   damage: 20

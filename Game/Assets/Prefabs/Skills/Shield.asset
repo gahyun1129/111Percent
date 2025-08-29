@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   skillName: Shield
-  icon: {fileID: 0}
-  cooldown: 10
+  cooldown: 2
