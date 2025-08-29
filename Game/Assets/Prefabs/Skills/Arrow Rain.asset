@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef89a21590349a24fa5888c212bc2abc, type: 3}
   m_Name: Arrow Rain
   m_EditorClassIdentifier: 
-  skillName: Arrow Rain
   cooldown: 5
   arrowPrefab: {fileID: 4397548503934682738, guid: 68f6b82bf5043f34ba94e5d271351935, type: 3}
-  RainArrowPrefab: {fileID: 4397548503934682738, guid: 3642935955c1ee543b0b27f1d2de9694, type: 3}
+  arrowRainPrefab: {fileID: 4397548503934682738, guid: 3642935955c1ee543b0b27f1d2de9694, type: 3}
   damage: 20
-  speed: 20
   arrowCount: 10
   delayBetween: 0.2
   center: 5

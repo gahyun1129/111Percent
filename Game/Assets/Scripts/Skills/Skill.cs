@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Skill : ScriptableObject
 {
-    public string skillName;
     public float cooldown;
     protected float lastUseTime = 0f;
 
@@ -26,10 +25,10 @@ public abstract class Skill : ScriptableObject
         return cooldown;
     }
 
-    public float GetRemainTime()
+    public float GetRemainingTime()
     {
-        float elapsed = GameManager.Instance.GameTime - lastUseTime;     // 지난 시간
-        float remaining = cooldown - elapsed;            // 남은 시간
+        float elapsed = GameManager.Instance.GameTime - lastUseTime;
+        float remaining = cooldown - elapsed;
         return Mathf.Max(remaining, 0f);
     }
 

@@ -7,12 +7,12 @@ public class EnemyAI : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float minimumRange = 5f;
-    public float maximumRange = 8f; // 플레이어와 유지할 거리
+    public float maximumRange = 8f;
     private float moveX = 0f;
     public Transform player;
 
     [Header("Attack")]
-    public GameObject projectilePrefab;
+    public GameObject arrowPrefab;
     public Transform firePoint;
     public float attackCooldown = 2f;
     public int attackDamage = 10;
@@ -52,18 +52,21 @@ public class EnemyAI : MonoBehaviour
             if (distanceX > maximumRange)
             {
                 animator.SetBool("isWalk", true);
+                UIManager.Instance.ShowChasingMark();
                 moveX = -1;
                 transform.localScale = new Vector3(-moveX, 1, 1);
             }
             else if (distanceX < minimumRange)
             {
                 animator.SetBool("isWalk", true);
+                UIManager.Instance.ShowChasingMark();
                 moveX = 1;
                 transform.localScale = new Vector3(-moveX, 1, 1);
             }
             else
             {
                 animator.SetBool("isWalk", false);
+                UIManager.Instance.HideChasingMark();
                 moveX = 0;
 
                 if (canAttack)
@@ -85,7 +88,7 @@ public class EnemyAI : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject arrowObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
         Arrow arrow = arrowObj.GetComponent<Arrow>();
 
         // 발사 방향 = 플레이어 바라보는 방향

@@ -9,7 +9,6 @@ public class SkillManager : MonoBehaviour
 
     public static SkillManager Instance { get; private set; }
 
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,7 +22,7 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        hp = gameObject.GetComponent<Health>();
+        hp = GetComponent<Health>();
         for ( int i = 0; i < equippedSkills.Length; ++i )
         {
             equippedSkills[i].ResetLastUseTime();
@@ -41,7 +40,7 @@ public class SkillManager : MonoBehaviour
 
     public void UseSkill(int index)
     {
-        if (index < equippedSkills.Length && equippedSkills[index] != null)
+        if (index < equippedSkills.Length && equippedSkills[index] != null && !GetComponent<PlayerAttack>().IsUseSkill)
         {
             equippedSkills[index].Use(gameObject);
         }
@@ -61,7 +60,7 @@ public class SkillManager : MonoBehaviour
     {
         if (index < equippedSkills.Length && equippedSkills[index] != null)
         {
-            return equippedSkills[index].GetRemainTime();
+            return equippedSkills[index].GetRemainingTime();
         }
 
         return -1f;

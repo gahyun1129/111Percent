@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float lifeTime = 5f;       // 자동 파괴 시간
-    private Rigidbody2D rb;
     public GameObject shooter;
 
-    public int damage = 10;
+    private float lifeTime = 4f;
+    private Rigidbody2D rb;
+    private int damage = 10;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifeTime); // 일정 시간 뒤 자동 삭제
+        Destroy(gameObject, lifeTime);
     }
 
     public void Launch(Vector2 direction, int _damage)
@@ -22,12 +22,11 @@ public class Arrow : MonoBehaviour
         damage = _damage;
     }
 
-    public void RainArrow(Vector2 direction, int _damage)
+    public void ArrowRainLaunch(Vector2 direction, int _damage)
     {
         rb.AddForce(direction, ForceMode2D.Impulse);
         damage = _damage;
 
-        // 회전 고정 → 위쪽을 보게
         transform.rotation = Quaternion.Euler(0, 0, 90);
     }
 
@@ -44,13 +43,14 @@ public class Arrow : MonoBehaviour
     {
         this.damage = damage;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             rb.velocity = Vector2.zero;
-            rb.isKinematic = true; // 물리 영향 안 받음
-            rb.simulated = false;  // 물리 계산 멈춤 (옵션)
+            rb.isKinematic = true; 
+            rb.simulated = false;  
         }
         else if (shooter.CompareTag("player") && collision.gameObject.CompareTag("Enemy"))
         {
@@ -64,7 +64,6 @@ public class Arrow : MonoBehaviour
         }
         else if ( shooter.CompareTag("Enemy") && collision.gameObject.CompareTag("Shield"))
         {
-            // 몬가 여기서 효과를 주면 좋겠다 슁~~ 해서 막는 느낌?
             Destroy(gameObject);
         }
     }

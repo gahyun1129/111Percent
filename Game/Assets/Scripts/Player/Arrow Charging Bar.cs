@@ -6,7 +6,6 @@ public class ArrowChargingBar : MonoBehaviour
 {
     public GameObject ChargingBar;
     
-
     public void ShowChargingBar()
     {
         ChargingBar.SetActive(true);
@@ -20,7 +19,7 @@ public class ArrowChargingBar : MonoBehaviour
     private void Update()
     {
         PlayerController controller = GetComponent<PlayerController>();
-        float value = Mathf.Clamp01(controller.holdTime / 2f);
+        float value = Mathf.Clamp01(controller.HoldTime / 2f);
         UIManager.Instance.UpdateChargingBar(value);
     }
 

@@ -10,62 +10,45 @@ public class JumpShotSkill : Skill
     public int damage = 20;
     public float arrowSpeed = 25f;
 
+    private Coroutine currentRoutine;
+
     protected override void Activate(GameObject user)
     {
-       
-        user.GetComponent<PlayerController>().StartCoroutine(FireDelayed(user));
+        // 이전 스킬 코루틴이 돌고 있으면 멈추기
+        if (currentRoutine != null)
+        {
+            user.GetComponent<PlayerController>().StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
+
+        user.GetComponent<PlayerAttack>().UseSkill();
+        currentRoutine = user.GetComponent<PlayerController>().StartCoroutine(FireDelayed(user));
     }
 
     private System.Collections.IEnumerator FireDelayed(GameObject user)
     {
+
+        yield return new WaitForSeconds(0.2f);
+
         Rigidbody2D rb = user.GetComponent<Rigidbody2D>();
 
-
-        if (rb != null)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
+        rb.gravityScale = 0f;
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(0.1f);
 
-        rb.gravityScale = 0f;   // 중력 꺼서 공중 정지
-        rb.velocity = Vector2.zero; // 혹시 남은 속도 제거
-
-        // user.GetComponent<PlayerController>().UseSkill();
+        rb.velocity = Vector2.zero;
 
         user.GetComponent<Animator>().SetTrigger("doAttack");
 
-        yield return new WaitForSeconds(1f);
-
-        Transform firePoint = user.GetComponent<PlayerController>().GetFirePoint();
-        GameObject enemy = GameManager.Instance.GetEnemy();
-
-        Vector2 start = firePoint.position;
-        Vector2 target = enemy.transform.position;
-        Vector2 dir = (target - start + new Vector2(0, 1f)).normalized;
-
-        GameObject arrow = Instantiate(arrowPrefab, start, Quaternion.identity);
-        var arrowRb = arrow.GetComponent<Rigidbody2D>();
-
-        arrowRb.gravityScale = 0f;
-        arrowRb.velocity = dir * arrowSpeed;
-
-        float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        arrow.transform.rotation = Quaternion.AngleAxis(ang, Vector3.forward);
-
-        var arrowComp = arrow.GetComponent<Arrow>();
-        if (arrowComp != null)
-        {
-            arrowComp.SetDamage(damage);
-            arrowComp.shooter = user;
-        }
-
-        // user.GetComponent<PlayerController>().StopSkill();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.5f);
 
         rb.gravityScale = 1f;
+        rb.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
 
+        yield return new WaitForSeconds(0.1f);
+
+        user.GetComponent<PlayerAttack>().StopSkill();
         lastUseTime = GameManager.Instance.GameTime;
-
     }
 }

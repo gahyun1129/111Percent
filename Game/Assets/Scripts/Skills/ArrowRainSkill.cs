@@ -8,11 +8,12 @@ using UnityEngine.UIElements;
 public class ArrowRainSkill : Skill
 {
     public GameObject arrowPrefab;
-    public GameObject RainArrowPrefab;
+    public GameObject arrowRainPrefab;
+
     public int damage = 20;
-    public float speed = 20f;
     public int arrowCount = 10;
     public float delayBetween = 0.2f;
+    
     public float center;
     public float size = 50f;
     public float spawnHeight = 0;
@@ -24,8 +25,8 @@ public class ArrowRainSkill : Skill
 
     private System.Collections.IEnumerator ShootArrowRain(GameObject user)
     {
-        Transform firePoint = user.GetComponent<PlayerController>().GetFirePoint();
-        GameObject arrow = Instantiate(RainArrowPrefab, firePoint.position, Quaternion.Euler(0, 0, 90));
+        Transform firePoint = user.GetComponent<PlayerAttack>().FirePoint;
+        GameObject arrow = Instantiate(arrowRainPrefab, firePoint.position, Quaternion.Euler(0, 0, 90));
         arrow.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 30f, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(0.5f);
@@ -44,7 +45,7 @@ public class ArrowRainSkill : Skill
         }
 
         yield return new WaitForSeconds(2f);
+        
         lastUseTime = GameManager.Instance.GameTime;
-
     }
 }

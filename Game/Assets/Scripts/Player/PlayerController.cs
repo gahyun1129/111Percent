@@ -4,53 +4,52 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    [Header("Player")]
     private float moveX;
+    public float moveSpeed = 5f;
+    public GameObject ReviveParticle;
+
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerAttack attack;
 
-    private bool isAttack = false;
-    private bool isUseSkill = false;
-
-    public GameObject arrowPrefab;
-    public Transform firePoint;
-
-    private float minForce = 10f;
-    private float maxForce = 11f;
-    private float pressTime;
-    public float holdTime;
     private bool isCharging = false;
 
-    public GameObject ReviveParticle;
+    private float pressTime;
+    private float holdTime;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        attack = GetComponent<PlayerAttack>();
     }
 
     void Update()
     {
-        if (!isAttack)
+        if (!attack.IsAttack && !attack.IsUseSkill)
+        {
             Move();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            pressTime = GameManager.Instance.GameTime;
-            gameObject.GetComponent<ArrowChargingBar>().ShowChargingBar();
-            isCharging = true;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                pressTime = GameManager.Instance.GameTime;
+                gameObject.GetComponent<ArrowChargingBar>().ShowChargingBar();
+                isCharging = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                isCharging = false;
+                holdTime = GameManager.Instance.GameTime - pressTime;
+                gameObject.GetComponent<PlayerAttack>().Attack();
+                Invoke("HideChargingBar", 2f);
+            }
+            if (isCharging)
+            {
+                holdTime = GameManager.Instance.GameTime - pressTime;
+            }
         }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            isCharging = false;
-            holdTime = GameManager.Instance.GameTime - pressTime;
-            Attack();
-            Invoke("HideChargingBar", 2f);
-        }
-        if (isCharging)
-        {
-            holdTime = GameManager.Instance.GameTime - pressTime;
-        }
+            
     }
 
     void HideChargingBar()
@@ -69,46 +68,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Attack()
-    {
-        isAttack = true;
-        animator.SetTrigger("doAttack");
-        
-    }
-
-    public void UseSkill()
-    {
-        isUseSkill = true;
-    }
-
-    public void StopSkill()
-    {
-        isUseSkill = false;
-    }
-
-    public void Shoot()
-    {
-        if (!isUseSkill)
-        {
-            GameObject arrowObj = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
-            Arrow arrow = arrowObj.GetComponent<Arrow>();
-
-            float normalized = Mathf.Clamp01(holdTime / 2f);
-            float power = Mathf.Lerp(minForce, maxForce, normalized);
-
-            Vector2 direction = new Vector2(-transform.localScale.x, 1f).normalized;
-            arrow.shooter = gameObject;
-            arrow.Launch(direction * power, 10 /* 변경 필요!! */);
-
-            isAttack = false;
-
-            StopSkill();
-        }
-    }
-
     void FixedUpdate()
     {
-        if (!isUseSkill)
+        if ( !attack.IsAttack && !attack.IsUseSkill)
         {
             rb.MovePosition(rb.position + new Vector2(moveX, 0) * moveSpeed * Time.fixedDeltaTime);
         }
@@ -119,5 +81,5 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("doVictory");
     }
 
-    public Transform GetFirePoint() => firePoint;
+    public float HoldTime => holdTime;
 }

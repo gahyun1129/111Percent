@@ -6,31 +6,31 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Player")]
+    public Slider playerHPBarUI;
+    public Text playerHPUI;
+    public Text[] activeSkillsText;
+    public Slider[] activeSkillsSlider;
+    public GameObject passiveSkillImage;
+    public Slider chargingBar;
+    public GameObject chargingMax;
+
+    [Header("Enemy")]
+    public Slider enemyHPBarUI;
+    public Text enemyHPUI;
+    public GameObject enemyChasingMark;
+
+    [Header("InGame")]
     public TextMeshProUGUI countDownText;
+    public Text timeUI;
+    public GameObject damagedImg;
+
 
     private bool isTimerActive = false;
     private float gameDuration = 90f;
 
-    public Slider playerHPBarUI;
-    public Slider enemyHPBarUI;
-
-    public Text playerHPUI;
-    public Text enemyHPUI;
-
-    public GameObject Player;
-    public GameObject Enemy;
-
-    public Text timeUI;
-
-    public Text[] ActiveSkillsText;
-    public Slider[] ActiveSkillsSlider;
-
-    public GameObject PassiveSkillImage;
-
-    public Slider ChargingBar;
-    public GameObject ChargingMax;
-
-    public GameObject damagedImg;
+    private GameObject Player;
+    private GameObject Enemy;
 
     public static UIManager Instance { get; private set; }
 
@@ -47,6 +47,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+
+        Player = GameManager.Instance.GetPlayer();
+        Enemy = GameManager.Instance.GetEnemy();
+
         playerHPBarUI.value = Player.GetComponent<Health>().GetHP() / Player.GetComponent<Health>().GetMAXHP();
         enemyHPBarUI.value = Enemy.GetComponent<Health>().GetHP() / Enemy.GetComponent<Health>().GetMAXHP();
 
@@ -59,7 +63,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-
         if (!isTimerActive) return;
 
         float remaining = gameDuration - GameManager.Instance.GameTime;
@@ -95,16 +98,21 @@ public class UIManager : MonoBehaviour
 
     public void StartGameTimer()
     {
-        isTimerActive=true;
+        isTimerActive = true;
+    }
+
+    public void StopGameTimer()
+    {
+        isTimerActive = false;
     }
 
     public void UpdateHPUI()
     {
         playerHPBarUI.value = Player.GetComponent<Health>().GetHP() / Player.GetComponent<Health>().GetMAXHP();
         enemyHPBarUI.value = Enemy.GetComponent<Health>().GetHP() / Enemy.GetComponent<Health>().GetMAXHP();
-
-        playerHPUI.text = Player.GetComponent<Health>().GetHP().ToString();
-        enemyHPUI.text = Enemy.GetComponent<Health>().GetHP().ToString();
+        
+        playerHPUI.text = Mathf.Max(Player.GetComponent<Health>().GetHP(), 0).ToString();
+        enemyHPUI.text = Mathf.Max(Enemy.GetComponent<Health>().GetHP(), 0).ToString();
     }
 
     public void OnSkillButtonClick(int index)
@@ -114,7 +122,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateActiveSkills()
     {
-        for ( int i = 0; i < ActiveSkillsSlider.Length; ++i)
+        for ( int i = 0; i < activeSkillsSlider.Length; ++i)
         {
             float coolTime = SkillManager.Instance.GetCoolTime(i);
             float remainTime = Mathf.CeilToInt(SkillManager.Instance.GetRemainTime(i));
@@ -122,14 +130,14 @@ public class UIManager : MonoBehaviour
 
             if (remainTime == 0)
             {
-                ActiveSkillsSlider[i].value = remainTime / coolTime;
-                ActiveSkillsText[i].enabled = false;
+                activeSkillsSlider[i].value = remainTime / coolTime;
+                activeSkillsText[i].enabled = false;
             }
             else
             {
-                ActiveSkillsText[i].enabled = true;
-                ActiveSkillsSlider[i].value = remainTime / coolTime;
-                ActiveSkillsText[i].text = remainTime.ToString();
+                activeSkillsText[i].enabled = true;
+                activeSkillsSlider[i].value = remainTime / coolTime;
+                activeSkillsText[i].text = remainTime.ToString();
             }
 
 
@@ -138,20 +146,20 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePassiveSkill()
     {
-        PassiveSkillImage.SetActive(true);
+        passiveSkillImage.SetActive(true);
     }
 
     public void UpdateChargingBar(float value)
     {
-        ChargingBar.value = value;
+        chargingBar.value = value;
 
         if ( value >= 1f)
         {
-            ChargingMax.SetActive(true);   
+            chargingMax.SetActive(true);   
         }
         else
         {
-            ChargingMax.SetActive(false);
+            chargingMax.SetActive(false);
         }
     }
 
@@ -177,10 +185,19 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
-        // 원래 크기로 복구
         damagedImg.transform.localScale = originalScale;
         playerHPBarUI.transform.localPosition = originalPosition;
 
         damagedImg.SetActive(false);
+    }
+
+    public void ShowChasingMark()
+    {
+        enemyChasingMark.SetActive(true);
+    }
+
+    public void HideChasingMark()
+    {
+        enemyChasingMark.SetActive(false);
     }
 }

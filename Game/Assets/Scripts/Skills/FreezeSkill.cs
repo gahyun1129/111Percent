@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/Freeze")]
 public class FreezeSkill : Skill
 {
-
     private float holdingTime = 3f;
 
     protected override void Activate(GameObject user)

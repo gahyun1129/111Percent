@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 8247289008205609047}
   - component: {fileID: 9102616833992103576}
   m_Layer: 9
-  m_Name: RainArrow
+  m_Name: ArrowRain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

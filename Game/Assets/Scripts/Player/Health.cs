@@ -48,6 +48,7 @@ public class Health : MonoBehaviour
 
         if (gameObject.CompareTag("Enemy") || !hasReviveChance)
         {
+            UIManager.Instance.StopGameTimer();
             GameManager.Instance.GameOver(gameObject.tag);
             Destroy(gameObject, 3f);
         }
