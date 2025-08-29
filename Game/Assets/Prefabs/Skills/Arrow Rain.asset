@@ -20,6 +20,6 @@ MonoBehaviour:
   speed: 20
   arrowCount: 10
   delayBetween: 0.2
-  center: 5.5
-  size: 6
+  center: 5
+  size: 8
   spawnHeight: 5
