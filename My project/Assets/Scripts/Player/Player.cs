@@ -16,12 +16,16 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            GameObject go = EnemyManager.instance.GetEnemy();
-            if ( go != null)
+            if (InGameManager.Instance.GameStart)
             {
-                go.GetComponent<Enemy>().OnDamaged(attackPower);
+                GameObject go = EnemyManager.instance.GetEnemy();
+                if ( go != null)
+                {
+                    go.GetComponent<Enemy>().OnDamaged(attackPower);
+                }
+                yield return new WaitForSeconds(attackTime);
             }
-            yield return new WaitForSeconds(attackTime);
+            yield return null;
         }
     }
 }

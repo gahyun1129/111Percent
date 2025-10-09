@@ -20,6 +20,7 @@ public class InGameManager : MonoBehaviour
     private int enemyNum = 10;
 
     private float gameTime = 0f;
+    private bool gameStart = false;
 
     private void Start()
     {
@@ -29,8 +30,16 @@ public class InGameManager : MonoBehaviour
 
     private void Update()
     {
-        gameTime += Time.deltaTime;
+        if ( gameStart)
+        {
+            gameTime += Time.deltaTime;
+        }
     }
+
     public float GameTime => gameTime;
+
+    public void SetGameState(bool _game) => gameStart = _game;
+
+    public bool GameStart => gameStart;
 
 }

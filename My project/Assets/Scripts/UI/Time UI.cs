@@ -16,7 +16,7 @@ public class TimeUI : MonoBehaviour
         }
         else
         {
-            // 게임 오버(lose)
+            SceneChanger.instance.ChangeScene("Scenes/OutGame");
         }
     }
 

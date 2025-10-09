@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     [SerializeField] Transform SpawnPoint;
-    private float spawnTime = 0.5f;
+    private float spawnTime = 0.2f;
     private float spacing = 0.8f;
 
     private List<GameObject> enemies = new List<GameObject>();
@@ -48,7 +48,8 @@ public class EnemyManager : MonoBehaviour
 
         if ( enemies.Count == 0)
         {
-            // 게임 오버(win)
+            Debug.Log("dd");
+            SceneChanger.instance.ChangeScene("Scenes/OutGame");
         }
         else
         {
