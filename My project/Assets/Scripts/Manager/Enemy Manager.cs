@@ -46,9 +46,16 @@ public class EnemyManager : MonoBehaviour
         enemies.Remove(go);
         Destroy(go);
 
-        for ( int i = 0; i < enemies.Count; i++ )
+        if ( enemies.Count == 0)
         {
-            enemies[i].GetComponent<Enemy>().SetTarget(SpawnPoint.position + Vector3.right * spacing * i);
+            // 게임 오버(win)
+        }
+        else
+        {
+            for ( int i = 0; i < enemies.Count; i++ )
+            {
+                enemies[i].GetComponent<Enemy>().SetTarget(SpawnPoint.position + Vector3.right * spacing * i);
+            }
         }
     }
     

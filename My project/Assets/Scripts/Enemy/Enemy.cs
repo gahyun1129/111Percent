@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
         if (HP <= 0)
         {
             EnemyManager.instance.DeleteEnemy(gameObject);
-            // enemy death
         }
     }
 

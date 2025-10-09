@@ -7,11 +7,11 @@ public class InGameManager : MonoBehaviour
     public static InGameManager Instance { get; private set; }
     private void Awake()
     {
-        if ( Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
-        }  
+        }
 
         Instance = this;
     }
@@ -19,8 +19,18 @@ public class InGameManager : MonoBehaviour
     private int stageNum = 0;
     private int enemyNum = 10;
 
+    private float gameTime = 0f;
+
     private void Start()
     {
         EnemyManager.instance.StartSpawnEnemy(enemyNum);
+        
     }
+
+    private void Update()
+    {
+        gameTime += Time.deltaTime;
+    }
+    public float GameTime => gameTime;
+
 }
