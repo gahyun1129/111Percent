@@ -5,9 +5,18 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] Transform SpawnPoint;
-    private float spawnTime = 0.5f;
-    private float spacing = 0.8f;
+
+    private float spawnTime;
+    private float spacing;
+    private Transform SpawnPoint;
+
+    public void SetSpawnData(float time, float _spacing, Transform point)
+    {
+        spawnTime = time;
+        spacing = _spacing;
+        SpawnPoint = point;
+    }
+
     public void StartSpawn(int count) => StartCoroutine(SpawnEnemy(count));
     IEnumerator SpawnEnemy(int count)
     {
