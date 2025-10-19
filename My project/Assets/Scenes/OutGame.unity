@@ -542,6 +542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 261076323}
   - component: {fileID: 261076324}
+  - component: {fileID: 261076325}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -577,6 +578,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageInfoPanel: {fileID: 600662706}
+--- !u!114 &261076325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261076322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55eaa8835eaf1ea48b40750166fe7cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &408554763
 GameObject:
   m_ObjectHideFlags: 0

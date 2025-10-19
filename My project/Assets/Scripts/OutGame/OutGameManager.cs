@@ -20,7 +20,7 @@ public class OutGameManager : MonoBehaviour
 
     public void OnClickedGamePlayButton()
     {
-        // ¾À ÀüÈ¯
+        SceneChanger.instance.ChangeScene("InGameScene");
     }
 
     public void OnClickedCancleButton()
