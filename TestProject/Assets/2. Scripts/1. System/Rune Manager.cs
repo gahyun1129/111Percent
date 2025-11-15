@@ -25,10 +25,13 @@ public class RuneManager : MonoBehaviour
     [SerializeField] private GameObject runePrefab;
 
     [Header("스폰된 룬")]
-    [SerializeField] private List<GameObject> runes;
+    [SerializeField] private Queue<RuneData> listedRunes = new Queue<RuneData>();
 
     [Header("스폰될 캔버스")]
     [SerializeField] private RectTransform runeCanvas;
+
+    [Header("UI 매니저")]
+    [SerializeField] private InGameUI gameUI;
 
     public void SpawnRune()
     {
@@ -37,7 +40,6 @@ public class RuneManager : MonoBehaviour
         rune.GetComponent<Rune>().SetRuneData(GetRandomRuneData());
 
         rune.GetComponent<RectTransform>().anchoredPosition = spawnPos;
-        runes.Add(rune);
     }
 
     public RuneData GetRandomRuneData()
@@ -58,21 +60,30 @@ public class RuneManager : MonoBehaviour
         return new Vector2(randomX, randomY);
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    RectTransform rectTransform = runeCanvas.GetComponent<RectTransform>();
+    public void SaveToListedRune(GameObject rune)
+    {
+        RuneData _data = rune.GetComponent<Rune>().GetRuneData();
 
-    //    // 기즈모 색상 설정
-    //    Gizmos.color = new Color(0, 1, 0, 0.5f); // 반투명 녹색
+        listedRunes.Enqueue(_data);
 
-    //    // spawnArea Rect를 RectTransform의 로컬 좌표에서 월드 좌표로 변환
-    //    // 앵커가 중앙일 때를 기준으로 계산
-    //    Vector3 center = rectTransform.TransformPoint(spawnArea.center);
-    //    Vector3 size = rectTransform.TransformVector(new Vector2(spawnArea.width, spawnArea.height));
+        gameUI.UpdateRuneNumText(listedRunes.Count);
+        gameUI.UpdateCurrentRuneIcon(listedRunes.Peek());
+    }
 
-    //    // Gizmos는 3D 큐브만 그릴 수 있으므로 얇은 큐브로 표시
-    //    size.z = 0.1f;
+    public void SkipToNextRune()
+    {
+        if (listedRunes.Count <= 0) return;
 
-    //    Gizmos.DrawWireCube(center, size);
-    //}
+        RuneData _data = null;
+        listedRunes.Dequeue();
+        
+        if (listedRunes.Count > 0)
+        {
+            _data = listedRunes.Peek();
+
+        }
+
+        gameUI.UpdateRuneNumText(listedRunes.Count);
+        gameUI.UpdateCurrentRuneIcon(_data);
+    }
 }

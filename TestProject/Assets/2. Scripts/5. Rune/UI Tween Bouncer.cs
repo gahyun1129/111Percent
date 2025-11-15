@@ -21,10 +21,7 @@ public class UITweenBouncer : MonoBehaviour
     private RectTransform rectTransform;
     private Vector2 finalAnchoredPosition; // UI가 최종적으로 머무를 '제자리'
 
-    void Awake()
-    {
-
-    }
+    public bool isDone = false;
 
     void Start()
     {
@@ -53,7 +50,12 @@ public class UITweenBouncer : MonoBehaviour
         rectTransform.DOAnchorPos(finalAnchoredPosition, duration, false)
             .SetEase(Ease.OutBounce) // "통, 통" 멈추는 효과
             .SetDelay(delay)
-            .OnComplete(() => Debug.Log(gameObject.name + " 제자리 튕김 애니메이션 완료!"));
+            .OnComplete(
+            () => 
+            { 
+                Debug.Log(gameObject.name + " 제자리 튕김 애니메이션 완료!");
+                isDone = true;
+            });
     }
 
     /// <summary>

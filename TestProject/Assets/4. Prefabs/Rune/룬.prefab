@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 0}
   icon: {fileID: 1862160059072897514}
+  bouncer: {fileID: 1440384188193948024}
 --- !u!114 &1440384188193948024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,3 +107,4 @@ MonoBehaviour:
   duration: 1
   delay: 0
   startOffset: {x: 0, y: 100}
+  isDone: 0

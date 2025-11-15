@@ -7,6 +7,7 @@ public class Rune : MonoBehaviour
 {
     [SerializeField] private RuneData data;
     [SerializeField] private Image icon;
+    [SerializeField] private UITweenBouncer bouncer;
 
     public void SetRuneData(RuneData _data)
     {
@@ -14,8 +15,14 @@ public class Rune : MonoBehaviour
         icon.sprite = SpriteManager.Instance.GetSprite(data.GetRuneIcon());
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        
+        if (bouncer != null && bouncer.isDone)
+        {
+            RuneManager.Instance.SaveToListedRune(gameObject);
+            Destroy(gameObject);
+        }
     }
+
+    public RuneData GetRuneData() => data;
 }
