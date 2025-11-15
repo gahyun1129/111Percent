@@ -13,4 +13,9 @@ public class Rune : MonoBehaviour
         data = _data;
         icon.sprite = SpriteManager.Instance.GetSprite(data.GetRuneIcon());
     }
+
+    private void OnEnable()
+    {
+        
+    }
 }
