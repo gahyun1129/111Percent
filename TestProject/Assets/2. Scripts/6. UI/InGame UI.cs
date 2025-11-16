@@ -26,6 +26,7 @@ public class InGameUI : MonoBehaviour
         {
             current_rune_icon.sprite = SpriteManager.Instance.GetSprite(current_rune_name_none);
         }
+
     }
 
     public void OnClickedSpawnRuneButton()
