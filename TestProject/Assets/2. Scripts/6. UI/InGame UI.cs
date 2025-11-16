@@ -9,6 +9,8 @@ public class InGameUI : MonoBehaviour
 
     [SerializeField] private Image current_rune_icon;
 
+    [SerializeField] private ListedRuneSlot listedRuneSlot;
+
     private string current_rune_name_none = "current_rune_name_none";
 
     public void UpdateRuneNumText(int num)
@@ -21,10 +23,12 @@ public class InGameUI : MonoBehaviour
         if ( rune != null)
         {
             current_rune_icon.sprite = SpriteManager.Instance.GetSprite(rune.GetRuneIcon());
+            listedRuneSlot.SetRuneData(rune);
         }
         else
         {
             current_rune_icon.sprite = SpriteManager.Instance.GetSprite(current_rune_name_none);
+            listedRuneSlot.SetRuneData(null);
         }
 
     }

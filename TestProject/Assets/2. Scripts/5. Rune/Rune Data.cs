@@ -12,6 +12,12 @@ public class RuneData : ScriptableObject
     [TextArea] [SerializeField] private string rune_description;
 
     public string GetRuneIcon() => rune_icon;
+
+    public string GetRuneName() => rune_name;
+
+    public RuneType GetRuneType() => rune_type;
+
+    public string GetRuneDescription() => rune_description;
 }
 
 public enum RuneType
