@@ -37,7 +37,7 @@ public class RuneManager : MonoBehaviour
     {
         Vector2 spawnPos = GetRandomSpawnPosition();
         GameObject rune = Instantiate(runePrefab, runeCanvas);
-        rune.GetComponent<Rune>().SetRuneData(GetRandomRuneData());
+        rune.GetComponent<Rune>().SetRunePrefab(GetRandomRuneData(), gameUI.GetListedRuneSlotRectTransfrom());
 
         rune.GetComponent<RectTransform>().anchoredPosition = spawnPos;
     }

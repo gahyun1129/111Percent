@@ -33,6 +33,11 @@ public class InGameUI : MonoBehaviour
 
     }
 
+    public RectTransform GetListedRuneSlotRectTransfrom()
+    {
+        return listedRuneSlot.gameObject.GetComponent<RectTransform>();
+    }
+
     public void OnClickedSpawnRuneButton()
     {
         RuneManager.Instance.SpawnRune();
