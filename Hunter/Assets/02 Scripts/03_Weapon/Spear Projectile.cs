@@ -5,6 +5,7 @@ using System.Threading;
 public class SpearProjectile : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] private Animator animator;
     [SerializeField] private float lifeTime = 5f;
     [SerializeField] private bool rotateTowardsDirection = true;
 
@@ -93,6 +94,8 @@ public class SpearProjectile : MonoBehaviour
             
             transform.SetParent(other.transform);
             EnemyDamage.Instance.OnDamaged(damage, other);
+
+            animator.SetTrigger("Success");
 
             isLanded = true;
         }

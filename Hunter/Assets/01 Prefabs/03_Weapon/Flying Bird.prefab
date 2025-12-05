@@ -50111,10 +50111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4228528732a65b94c828da955e296713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1675891299721504407}
   lifeTime: 5
   rotateTowardsDirection: 1
   fallGravityMultiplier: 1.5
   speedMultiplier: 1.4
+  damage: 10
 --- !u!50 &2273593041334743698
 Rigidbody2D:
   serializedVersion: 4

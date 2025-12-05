@@ -7686,7 +7686,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000063e6c76d
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -16045,6 +16045,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1715930131876204989, guid: a89ffddf121e88f4a8d58c0ffa01cdf4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1367037825}
+    - targetCorrespondingSourceObject: {fileID: 1715930131876204989, guid: a89ffddf121e88f4a8d58c0ffa01cdf4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1367037827}
   m_SourcePrefab: {fileID: 100100000, guid: a89ffddf121e88f4a8d58c0ffa01cdf4, type: 3}
 --- !u!1 &1367037823 stripped
 GameObject:
@@ -16065,6 +16068,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1323887030}
   animator: {fileID: 91675344}
+--- !u!114 &1367037827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367037823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fec1d909c1ed08498ae295fb6343c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 91675344}
+  Health: 100
+  punchScaleStrength: {x: 0.1, y: 0.2}
+  punchDuration: 0.3
+  flashDuration: 0.15
 --- !u!1 &1377124646
 GameObject:
   m_ObjectHideFlags: 0
