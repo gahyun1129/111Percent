@@ -14,6 +14,9 @@ public class SpearProjectile : MonoBehaviour
     [Header("속도 & 타격감 조절")]
     [Range(1f, 5f)]
     public float speedMultiplier = 2.0f; // 전체 속도 배수 (빠르기)
+
+    [Header("데미지")]
+    [SerializeField] private float damage;
     
     private Vector3 velocity;
     private float baseGravity; // 원래 설정된 중력값
@@ -21,6 +24,8 @@ public class SpearProjectile : MonoBehaviour
 
     private float fastGravity;
     private Vector3 currentVelocity;
+
+    private bool isLanded = false;
 
     public void Launch(Vector3 startPos, Vector3 initialVelocity, float gravityValue)
     {
@@ -78,14 +83,18 @@ public class SpearProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isLanded) return;
+
         // Enemy 레이어와 충돌 시 멈춤
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             isFlying = false;
             velocity = Vector3.zero;
             
-            // 맞은 대상의 자식으로 설정 (적과 함께 움직임)
             transform.SetParent(other.transform);
+            EnemyDamage.Instance.OnDamaged(damage, other);
+
+            isLanded = true;
         }
     }
 }

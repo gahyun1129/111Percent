@@ -91,7 +91,7 @@ public class BearController : MonoBehaviour
             {
                 attacker.DoFire();
                 animator.SetTrigger("Shoot");
-                PlayFeatherEffect().Forget();
+                // PlayFeatherEffect().Forget();
             }
             else if (currentState == PlayerState.MOVING)
             {
@@ -138,19 +138,19 @@ public class BearController : MonoBehaviour
 
     public async UniTaskVoid PlayFeatherEffect()
     {
-        // // 깃털 이펙트 활성화
-        // if (EffectManager.Instance != null)
-        // {
-        //     EffectManager.Instance.PlayFeather();
-        // }
+        // 깃털 이펙트 활성화
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.PlayFeather();
+        }
 
-        // // 1초 대기
-        // await UniTask.Delay(1000, cancellationToken: this.GetCancellationTokenOnDestroy());
+        // 1초 대기
+        await UniTask.Delay(1000, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-        // // 깃털 이펙트 비활성화
-        // if (EffectManager.Instance != null)
-        // {
-        //     EffectManager.Instance.StopFeather();
-        // }
+        // 깃털 이펙트 비활성화
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.StopFeather();
+        }
     }
 }

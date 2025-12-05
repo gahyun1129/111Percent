@@ -50056,6 +50056,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2273593041334743698}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6601919541226772992}
     - targetCorrespondingSourceObject: {fileID: -8909283258464521864, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2658201025022675184}
@@ -50139,6 +50142,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!210 &6601919541226772992
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486140236929467581}
+  m_Enabled: 1
+  m_SortingLayerID: 1841817187
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &3737235455618126968 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8909283258464521864, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
