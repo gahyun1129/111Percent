@@ -99,5 +99,14 @@ public class SpearProjectile : MonoBehaviour
 
             isLanded = true;
         }
+        else if ( other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isFlying = false;
+            velocity = Vector3.zero;
+
+            animator.SetTrigger("Fail");
+
+            isLanded = true;
+        }
     }
 }
