@@ -17,23 +17,11 @@ public class EnemyDamage : MonoBehaviour
     private SpriteRenderer[] _allRenderers;
     private Material[] _allMaterials;
 
-    [Header("Stats")]
-    public float Health = 100f;
-
-    [Header("Damage Effect (Visual)")]
-    [Tooltip("띠용~ 하는 스케일 강도 (X, Y)")]
-    [SerializeField] private Vector2 punchScaleStrength = new Vector2(0.3f, 0.3f);
-
-    [Tooltip("띠용~ 하는 시간")]
-    [SerializeField] private float punchDuration = 0.3f;
-
-    [Tooltip("하얗게 변하는 시간")]
-    [SerializeField] private float flashDuration = 0.15f;
-
     private Vector3 _originalScale;
     private CancellationTokenSource _cts;
     private Sequence _currentSeq;
 
+    ThrowData throwData;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -56,17 +44,22 @@ public class EnemyDamage : MonoBehaviour
         _originalScale = transform.localScale;
     }
 
+    private void Start()
+    {
+        throwData = GameDataManager.Instance.THROWDATA;
+    }
+
     public void OnDamaged(float damage, Collider2D target)
     {
         if (target.CompareTag("Hand")) damage *= 3;
 
-        Health -= damage;
+        throwData.Health -= damage;
 
         PlayDamageEffect().Forget();
 
-        if (Health <= 0)
+        if (throwData.Health <= 0)
         {
-            Health = 0;
+            throwData.Health = 0;
             animator.SetTrigger("Dead");
         }
     }
@@ -92,12 +85,12 @@ public class EnemyDamage : MonoBehaviour
         _currentSeq = DOTween.Sequence();
 
         // A. 몸체 전체 띠용 (부모만 띠용하면 자식들은 다 따라옴)
-        _= _currentSeq.Join(transform.DOPunchScale(new Vector3(punchScaleStrength.x, punchScaleStrength.y, 0), punchDuration, 10, 1f));
+        _= _currentSeq.Join(transform.DOPunchScale(new Vector3(throwData.punchScaleStrength.x, throwData.punchScaleStrength.y, 0), throwData.punchDuration, 10, 1f));
 
         // B. [핵심] 모든 자식들 하얗게 만들기 (DOVirtual 사용)
         // 0부터 1까지 값을 변화시키면서, 그 값을 모든 마테리얼에 한꺼번에 대입합니다.
         // 스프라이트가 100개여도 트윈은 딱 1개만 돌아가서 성능이 좋습니다.
-        _= _currentSeq.Join(DOVirtual.Float(0f, 1f, flashDuration, (value) =>
+        _= _currentSeq.Join(DOVirtual.Float(0f, 1f, throwData.flashDuration, (value) =>
         {
             // 이 람다 함수는 매 프레임 호출됨
             foreach (var mat in _allMaterials)

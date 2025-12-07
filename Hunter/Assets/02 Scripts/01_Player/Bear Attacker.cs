@@ -10,32 +10,6 @@ public class BearAttacker : MonoBehaviour
     [SerializeField] private Transform throwPoint;
     [SerializeField] private SpearProjectile projectilePrefab;
 
-    [Header("Control Feel (조작감)")]
-    [Range(0.1f, 3.0f)]
-    [SerializeField] private float sensitivity = 1.5f;
-    [Range(1f, 50f)]
-    [SerializeField] private float aimSmoothing = 15f;
-    [SerializeField] private float minDragDistance = 40f;
-
-    [Header("Physics Settings")]
-    [SerializeField] private float minPower = 5f;
-    [SerializeField] private float powerMultiplier = 10f;
-    [SerializeField] private float maxPower = 25f;
-    [SerializeField] private float gravity = -25f;        // 우리가 원하는 중력값
-
-    [SerializeField] private float fallGravityMultiplier = 2.5f;
-    [SerializeField] private float initialSpeedBoost = 1.2f; // 초기 속도 부스트
-
-    [Header("Trajectory Visuals")]
-    [SerializeField] private int dotCount = 30;
-    [SerializeField] private float dotSpacing = 0.05f;
-    [SerializeField] private float minAlpha = 0.2f;
-    [SerializeField] private float flowSpeed = 2f;
-
-    [Header("Aim Constraints")]
-    [SerializeField] private float minAngle = -10f;
-    [SerializeField] private float maxAngle = 85f;
-
     private List<GameObject> dots;
     private List<SpriteRenderer> dotRenderers;
     private bool isAiming = false;
@@ -44,10 +18,20 @@ public class BearAttacker : MonoBehaviour
     private Vector3 currentInputPos;
     private Vector3 currentSmoothedVelocity;
 
+    private ThrowData throwData;
+
     private void Start()
     {
+        throwData = GameDataManager.Instance.THROWDATA;
+
+        if ( throwData == null)
+        {
+            Debug.Log("null");
+        }
+
         CreateDots();
         HideDots();
+
     }
 
     public void DoAiming()
@@ -68,7 +52,7 @@ public class BearAttacker : MonoBehaviour
         currentInputPos = Input.mousePosition;
 
         float dragDistance = Vector3.Distance(startInputPos, currentInputPos);
-        if (dragDistance < minDragDistance)
+        if (dragDistance < throwData.minDragDistance)
         {
             HideDots();
             return;
@@ -82,12 +66,12 @@ public class BearAttacker : MonoBehaviour
         }
         else
         {
-            currentSmoothedVelocity = Vector3.Lerp(currentSmoothedVelocity, targetVelocity, Time.unscaledDeltaTime * aimSmoothing);
+            currentSmoothedVelocity = Vector3.Lerp(currentSmoothedVelocity, targetVelocity, Time.unscaledDeltaTime * throwData.aimSmoothing);
 
-            if (currentSmoothedVelocity.magnitude >= minPower)
+            if (currentSmoothedVelocity.magnitude >= throwData.minPower)
             {
                 // ★ [중요 수정] 시뮬레이션 할 때도 Boost를 적용해야 실제랑 똑같이 보임!
-                SimulateTrajectory(currentSmoothedVelocity * initialSpeedBoost);
+                SimulateTrajectory(currentSmoothedVelocity * throwData.initialSpeedBoost);
                 if (!dots[0].activeSelf) ShowDots();
             }
             else
@@ -104,15 +88,15 @@ public class BearAttacker : MonoBehaviour
         isAiming = false;
         HideDots();
 
-        if (currentSmoothedVelocity.magnitude >= minPower)
+        if (currentSmoothedVelocity.magnitude >= throwData.minPower)
         {
             // 실제 발사 벡터
-            Vector3 finalVelocity = currentSmoothedVelocity * initialSpeedBoost;
+            Vector3 finalVelocity = currentSmoothedVelocity * throwData.initialSpeedBoost;
 
             SpearProjectile spear = Instantiate(projectilePrefab, throwPoint.position, Quaternion.identity);
 
             // ★ 수정됨: 생성된 투사체에 우리가 계산한 '정확한 값'들을 전달
-            spear.Launch(throwPoint.position, finalVelocity, gravity, fallGravityMultiplier);
+            spear.Launch(throwPoint.position, finalVelocity, throwData.gravity, throwData.fallGravityMultiplier);
         }
     }
 
@@ -120,8 +104,8 @@ public class BearAttacker : MonoBehaviour
     private Vector3 CalculateClampedVelocity(Vector3 start, Vector3 current)
     {
         Vector3 direction = start - current;
-        float rawMagnitude = direction.magnitude * 0.01f * sensitivity;
-        float finalPower = Mathf.Clamp(rawMagnitude * powerMultiplier, 0, maxPower);
+        float rawMagnitude = direction.magnitude * 0.01f * throwData.sensitivity;
+        float finalPower = Mathf.Clamp(rawMagnitude * throwData.powerMultiplier, 0, throwData.maxPower);
 
         float angleRad = Mathf.Atan2(direction.y, direction.x);
         float angleDeg = angleRad * Mathf.Rad2Deg;
@@ -129,10 +113,10 @@ public class BearAttacker : MonoBehaviour
         if (direction.x < 0)
         {
             if (direction.y < 0) return Vector3.zero;
-            else angleDeg = maxAngle;
+            else angleDeg = throwData.maxAngle;
         }
 
-        angleDeg = Mathf.Clamp(angleDeg, minAngle, maxAngle);
+        angleDeg = Mathf.Clamp(angleDeg, throwData.minAngle, throwData.maxAngle);
         float clampedRad = angleDeg * Mathf.Deg2Rad;
         Vector3 finalDir = new Vector3(Mathf.Cos(clampedRad), Mathf.Sin(clampedRad), 0);
 
@@ -141,7 +125,7 @@ public class BearAttacker : MonoBehaviour
 
     private void SimulateTrajectory(Vector3 startVelocity)
     {
-        int physicalPointCount = dotCount + 1;
+        int physicalPointCount = throwData.dotCount + 1;
         Vector3[] pathPoints = new Vector3[physicalPointCount];
 
         Vector3 tempPos = throwPoint.position;
@@ -151,10 +135,10 @@ public class BearAttacker : MonoBehaviour
 
         for (int i = 1; i < physicalPointCount; i++)
         {
-            float timeStep = dotSpacing;
+            float timeStep = throwData.dotSpacing;
 
             // 시뮬레이션 중력 (BearAttacker의 gravity 값 사용)
-            float currentGravity = (tempVel.y < 0) ? gravity * fallGravityMultiplier : gravity;
+            float currentGravity = (tempVel.y < 0) ? throwData.gravity * throwData.fallGravityMultiplier : throwData.gravity;
 
             tempVel.y += currentGravity * timeStep;
             tempPos += tempVel * timeStep;
@@ -162,16 +146,16 @@ public class BearAttacker : MonoBehaviour
             pathPoints[i] = tempPos;
         }
 
-        float progress = (Time.time * flowSpeed) % 1f;
+        float progress = (Time.time * throwData.flowSpeed) % 1f;
 
-        for (int i = 0; i < dotCount; i++)
+        for (int i = 0; i < throwData.dotCount; i++)
         {
             Vector3 flowPos = Vector3.Lerp(pathPoints[i], pathPoints[i + 1], progress);
             dots[i].transform.position = flowPos;
 
-            float alphaRatio = 1f - ((float)i / dotCount);
+            float alphaRatio = 1f - ((float)i / throwData.dotCount);
             Color c = dotRenderers[i].color;
-            c.a = Mathf.Lerp(minAlpha, 1f, alphaRatio);
+            c.a = Mathf.Lerp(throwData.minAlpha, 1f, alphaRatio);
             dotRenderers[i].color = c;
 
             float scale = Mathf.Lerp(0.2f, 0.05f, 1f - alphaRatio);
@@ -191,7 +175,7 @@ public class BearAttacker : MonoBehaviour
     {
         dots = new List<GameObject>();
         dotRenderers = new List<SpriteRenderer>();
-        for (int i = 0; i < dotCount; i++)
+        for (int i = 0; i < throwData.dotCount; i++)
         {
             GameObject dot = Instantiate(dotPrefab, transform);
             dots.Add(dot);

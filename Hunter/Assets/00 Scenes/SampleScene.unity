@@ -22726,6 +22726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 33875437b252f46488371bc0c271cede, type: 2}
+  throwData: {fileID: 11400000, guid: b3bd140126e8fef47b8bc05bde96445c, type: 2}
 --- !u!1 &855487490
 GameObject:
   m_ObjectHideFlags: 0
@@ -33190,21 +33191,6 @@ MonoBehaviour:
   dotPrefab: {fileID: 7439453527986932018, guid: c08e606d0db8c1e409e865ba57b2fe53, type: 3}
   throwPoint: {fileID: 315230350}
   projectilePrefab: {fileID: 7112283270167326293, guid: 85c350589320b8b4bbc0b71389f50339, type: 3}
-  sensitivity: 0.7
-  aimSmoothing: 8
-  minDragDistance: 40
-  minPower: 5
-  powerMultiplier: 15
-  maxPower: 25
-  gravity: -30
-  fallGravityMultiplier: 1.5
-  initialSpeedBoost: 1
-  dotCount: 30
-  dotSpacing: 0.03
-  minAlpha: 0
-  flowSpeed: 3
-  minAngle: -10
-  maxAngle: 85
 --- !u!224 &1328158700 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7127684154124994337, guid: b9903f1bdc1a905428e2e1ab59d36d92, type: 3}
@@ -34417,10 +34403,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 91675344}
-  Health: 100
-  punchScaleStrength: {x: 0.1, y: 0.2}
-  punchDuration: 0.3
-  flashDuration: 0.15
 --- !u!1 &1372504280
 GameObject:
   m_ObjectHideFlags: 0

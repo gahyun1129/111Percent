@@ -5,6 +5,7 @@ public class GameDataManager : MonoBehaviour
     public static GameDataManager Instance { get; private set; }
 
     [SerializeField] private GameData gameData;
+    [SerializeField] private ThrowData throwData;
 
     void Awake()
     {
@@ -19,4 +20,5 @@ public class GameDataManager : MonoBehaviour
     }
 
     public GameData GAMEDATA => gameData;
+    public ThrowData THROWDATA => throwData;
 }

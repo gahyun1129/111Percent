@@ -4,30 +4,15 @@ using Cysharp.Threading.Tasks;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SpearProjectile : MonoBehaviour
 {
-    [Header("🎯 References")]
+    [Header("References")]
     [SerializeField] private Animator animator;
     [Tooltip("실제로 꽂힐 기준점 (새의 부리 끝 위치)")]
     [SerializeField] private Transform tipPoint;
 
-    [Header("📊 Stats & Damage")]
-    [SerializeField] private float damage = 10f;
-    [SerializeField] private float lifeTime = 5f;
-
-    [Header("⚡ Speed & Logic")]
-    [Range(1f, 5f)]
-    public float speedMultiplier = 2.0f;
-
-    [Header("🏷️ Layers")]
+    [Header("Layers")]
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask blockLayer;
     [SerializeField] private LayerMask groundLayer;
-
-    [Header("⚙️ Physics Logic")]
-    [SerializeField] private Vector2 ricochetForce = new Vector2(-5f, 10f);
-    [SerializeField] private float ricochetTorque = 360f;
-    [SerializeField] private float groundBounciness = 0.5f;
-    [SerializeField] private float groundFriction = 2.0f;
-    [SerializeField] private float stopThreshold = 4.0f; // ★ 값을 조금 넉넉하게 잡는 게 좋습니다
 
     // 내부 변수
     private Rigidbody2D rb;
@@ -39,10 +24,14 @@ public class SpearProjectile : MonoBehaviour
     private bool hasRicocheted = false;
     private bool isLanded = false;
 
+    private ThrowData throwData;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponentInChildren<Collider2D>();
+
+        throwData = GameDataManager.Instance.THROWDATA;
     }
 
     public void Launch(Vector3 startPos, Vector3 initialVelocity, float attackerGravity, float attackerFallMultiplier)
@@ -56,13 +45,13 @@ public class SpearProjectile : MonoBehaviour
         rb.isKinematic = false; // ★ 재사용 시 물리 다시 켜기
         col.enabled = true;     // ★ 재사용 시 충돌 다시 켜기
 
-        Vector2 finalVelocity = initialVelocity * speedMultiplier;
+        Vector2 finalVelocity = initialVelocity * throwData.speedMultiplier;
         rb.velocity = finalVelocity;
 
         float standardGravity = Physics2D.gravity.y;
         float gravityRatio = attackerGravity / standardGravity;
 
-        _baseGravityScale = gravityRatio * (speedMultiplier * speedMultiplier);
+        _baseGravityScale = gravityRatio * (throwData.speedMultiplier * throwData.speedMultiplier);
         rb.gravityScale = _baseGravityScale;
 
         LifetimeRoutine().Forget();
@@ -93,7 +82,7 @@ public class SpearProjectile : MonoBehaviour
         // 3. 바닥 마찰
         if (hasRicocheted && !isStuck)
         {
-            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.fixedDeltaTime * groundFriction), rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.fixedDeltaTime * throwData.groundFriction), rb.velocity.y);
         }
     }
 
@@ -139,7 +128,7 @@ public class SpearProjectile : MonoBehaviour
 
         if (isSuccess)
         {
-            EnemyDamage.Instance?.OnDamaged(damage, target);
+            EnemyDamage.Instance?.OnDamaged(throwData.damage, target);
             animator.SetTrigger("Success");
         }
         else
@@ -155,10 +144,10 @@ public class SpearProjectile : MonoBehaviour
         // animator.SetTrigger("Fail");
 
         rb.velocity = new Vector2(
-            -Mathf.Abs(transform.right.x) * 2f + ricochetForce.x,
-            ricochetForce.y
+            -Mathf.Abs(transform.right.x) * 2f + throwData.ricochetForce.x,
+            throwData.ricochetForce.y
         );
-        rb.angularVelocity = ricochetTorque;
+        rb.angularVelocity = throwData.ricochetTorque;
     }
 
     // ★ [핵심 수정] 바닥 트리거 처리
@@ -176,7 +165,7 @@ public class SpearProjectile : MonoBehaviour
         }
 
         // 2. 속도가 너무 느리면 -> 완전히 멈추고 물리 끄기 (안 그러면 뚫고 내려감)
-        if (rb.velocity.magnitude < stopThreshold)
+        if (rb.velocity.magnitude < throwData.stopThreshold)
         {
             StopPhysics(false); // 물리를 꺼서 중력을 없앰
             isStuck = true;     // 로직 정지
@@ -189,7 +178,7 @@ public class SpearProjectile : MonoBehaviour
         // 3. 아직 빠르면 -> 튕기기 (Trigger라 물리 엔진이 안 해주므로 수동 계산)
         if (rb.velocity.y < 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Abs(rb.velocity.y) * groundBounciness);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Abs(rb.velocity.y) * throwData.groundBounciness);
             rb.angularVelocity *= 0.5f;
         }
     }
@@ -205,7 +194,7 @@ public class SpearProjectile : MonoBehaviour
 
     private async UniTaskVoid LifetimeRoutine()
     {
-        await UniTask.Delay(System.TimeSpan.FromSeconds(lifeTime), cancellationToken: this.GetCancellationTokenOnDestroy());
+        await UniTask.Delay(System.TimeSpan.FromSeconds(throwData.lifeTime), cancellationToken: this.GetCancellationTokenOnDestroy());
         if (this != null && gameObject != null) Destroy(gameObject);
     }
 }
