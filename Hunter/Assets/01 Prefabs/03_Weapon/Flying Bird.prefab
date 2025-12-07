@@ -4923,6 +4923,37 @@ Transform:
   - {fileID: 5943808562464049690}
   m_Father: {fileID: 2353513194559626462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1466079205322825442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9119829374990834071}
+  m_Layer: 10
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9119829374990834071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466079205322825442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.268, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5561399252116106483}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2063497945713724973
 GameObject:
   m_ObjectHideFlags: 0
@@ -50046,6 +50077,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4257508509235537429, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
       insertIndex: 2
       addedObject: {fileID: 2480722988006075487}
+    - targetCorrespondingSourceObject: {fileID: 8838458216917420531, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9119829374990834071}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
       insertIndex: -1
@@ -50112,11 +50146,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1675891299721504407}
-  lifeTime: 5
-  rotateTowardsDirection: 1
-  fallGravityMultiplier: 1.5
-  speedMultiplier: 1.4
+  tipPoint: {fileID: 9119829374990834071}
   damage: 10
+  lifeTime: 5
+  speedMultiplier: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  ricochetForce: {x: -5, y: 10}
+  ricochetTorque: 360
+  groundBounciness: 0.5
+  groundFriction: 2
+  stopThreshold: 4
 --- !u!50 &2273593041334743698
 Rigidbody2D:
   serializedVersion: 4
@@ -50125,7 +50172,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3486140236929467581}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -50214,6 +50261,11 @@ PolygonCollider2D:
       - {x: 0.7835091, y: 0.1944983}
       - {x: 0.73155564, y: 0.2713067}
   m_UseDelaunayMesh: 0
+--- !u!4 &5561399252116106483 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8838458216917420531, guid: 985ec07d600444aa4b22b9b0e6c6c1f7, type: 3}
+  m_PrefabInstance: {fileID: 4001041230338073856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8967968531937795001
 PrefabInstance:
   m_ObjectHideFlags: 0

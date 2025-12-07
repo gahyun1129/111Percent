@@ -127740,6 +127740,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3127acc475898e745aca6538e0ea59c4, type: 2}
+    - target: {fileID: -2436166059166247887, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: -1716091183073879236, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.572768
@@ -127807,6 +127811,26 @@ PrefabInstance:
     - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.10094881
+      objectReference: {fileID: 0}
+    - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -427680081488386301, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -419345551939687363, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -128344,7 +128368,78 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 66033695537636625, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6119841359805392298}
+    - targetCorrespondingSourceObject: {fileID: -2436166059166247887, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6478159250739481403}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+--- !u!1 &269762053616039191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2436166059166247887, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
+  m_PrefabInstance: {fileID: 6741498079157002534}
+  m_PrefabAsset: {fileID: 0}
+--- !u!60 &6478159250739481403
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269762053616039191}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.5000932, y: 0.23924544}
+      - {x: 1.50066, y: 0.7236731}
+      - {x: 1.5444195, y: 1.1058338}
+      - {x: 1.4787569, y: 1.5108066}
+      - {x: 1.4223576, y: 1.6482838}
+      - {x: 1.3348781, y: 1.3691702}
+      - {x: 1.086982, y: 1.0990621}
+      - {x: 1.1236775, y: 0.9888437}
+      - {x: 0.8392118, y: 0.6755364}
+      - {x: 0.5387867, y: 0.47678304}
+      - {x: -0.120120585, y: 0.18843265}
+      - {x: -0.16376254, y: 0.013423115}
+      - {x: -0.041461647, y: -0.3950402}
+      - {x: 0.23731735, y: -0.6473645}
+      - {x: 0.6502443, y: -0.8210236}
+      - {x: 1.1354177, y: -0.67168826}
+      - {x: 1.4535446, y: -0.3807715}
+      - {x: 1.5529523, y: -0.044065684}
+  m_UseDelaunayMesh: 0
 --- !u!4 &2595856355383388987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8757470833618749981, guid: 9f73a4414e2d64edbbba5e23bb557dfe, type: 3}
