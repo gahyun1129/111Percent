@@ -35,7 +35,7 @@ MonoBehaviour:
   groundBounciness: 0.5
   groundFriction: 2
   stopThreshold: 4
-  Health: 60
+  Health: 99630
   punchScaleStrength: {x: 0.3, y: 0.3}
   punchDuration: 0.3
   flashDuration: 0.15

@@ -76,9 +76,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4918251411467462325}
   tipPoint: {fileID: 3283389817949641141}
-  damage: 10
-  lifeTime: 5
-  speedMultiplier: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -88,11 +85,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
-  ricochetForce: {x: -5, y: 10}
-  ricochetTorque: 360
-  groundBounciness: 0.5
-  groundFriction: 2
-  stopThreshold: 4
 --- !u!210 &9105888782413644029
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -168,6 +160,10 @@ PrefabInstance:
     - target: {fileID: 3486140236929467581, guid: ed028a44fe2548e4183c0d9974386f13, type: 3}
       propertyPath: m_Name
       value: Flying Bird
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808198307345539970, guid: ed028a44fe2548e4183c0d9974386f13, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6430399939363013747, guid: ed028a44fe2548e4183c0d9974386f13, type: 3}

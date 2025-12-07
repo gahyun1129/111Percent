@@ -14,6 +14,9 @@ public class SpearProjectile : MonoBehaviour
     [SerializeField] private LayerMask blockLayer;
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private float fail_effect_scale = 3f;
+    [SerializeField] private float success_effect_scale = 8f;
+
     // 내부 변수
     private Rigidbody2D rb;
     private Collider2D col;
@@ -115,24 +118,63 @@ public class SpearProjectile : MonoBehaviour
         isLanded = true;
         isStuck = true;
 
-        StopPhysics(true); // 물리 끄기
+        StopPhysics(true);
 
-        transform.SetParent(target.transform);
+        // 1. 꽂힐 위치 계산 (기존 로직)
+        Vector3 hitPoint = target.ClosestPoint(tipPoint.position);
 
         if (tipPoint != null)
         {
-            Vector3 hitPoint = target.ClosestPoint(tipPoint.position);
             Vector3 tipOffset = transform.position - tipPoint.position;
             transform.position = hitPoint + tipOffset;
         }
 
+        // ================================================================
+        // ★ 추가된 로직: 표면 각도 계산 및 회전 적용
+        // ================================================================
+
+        // 팁 위치에서 타겟의 중심 쪽으로 향하는 방향 (혹은 현재 날아오던 방향의 반대)
+        // 정확한 표면 각도를 얻기 위해 투사체 위치에서 타겟 쪽으로 레이를 쏩니다.
+        Vector2 dirToTarget = (hitPoint - transform.position).normalized;
+
+        // 타겟 레이어만 충돌 체크하도록 필터링 (자기 자신 등 제외)
+        int targetLayerMask = 1 << target.gameObject.layer;
+
+        // 약간 뒤에서 쏴야 표면을 정확히 감지함 (거리 1.0f 정도면 충분)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToTarget, 2.0f, targetLayerMask);
+
+        if (hit.collider != null)
+        {
+            // hit.normal이 바로 '표면의 수직 벡터'입니다.
+            // Atan2를 사용해 벡터를 각도(도)로 변환합니다.
+            float angle = Mathf.Atan2(hit.normal.y, hit.normal.x) * Mathf.Rad2Deg;
+
+            // [중요] 스프라이트가 오른쪽(0도)을 보고 있다고 가정할 때:
+            // 표면이 위를 향하면(90도), 칼은 아래를 향해(270도/-90도) 꽂혀야 하므로 180도를 더해줍니다.
+            // 여기에 랜덤값(-15 ~ +15도)을 추가합니다.
+            float randomSpread = Random.Range(-15f, 15f);
+            transform.rotation = Quaternion.Euler(0, 0, angle + 180f + randomSpread);
+        }
+        else
+        {
+            // 혹시 레이캐스트가 실패했다면 그냥 랜덤만 줍니다.
+            transform.Rotate(0, 0, Random.Range(-20f, 20f));
+        }
+        // ================================================================
+
+        transform.SetParent(target.transform);
+
         if (isSuccess)
         {
+            EffectManager.Instance.PlayEffect(EffectType.Bird_Success, transform.position, Vector3.one * success_effect_scale);
+
             EnemyDamage.Instance?.OnDamaged(throwData.damage, target);
             animator.SetTrigger("Success");
         }
         else
         {
+            EffectManager.Instance.PlayEffect(EffectType.Bird_Fail, transform.position, Vector3.one * fail_effect_scale);
+
             animator.SetTrigger("Fail");
         }
     }
