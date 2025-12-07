@@ -60,17 +60,12 @@ public class InfiniteBackground : MonoBehaviour
                         combinedBounds.Encapsulate(renderers[i].bounds);
                     }
                     layer.layerWidth = combinedBounds.size.x;
-                    Debug.Log($"{layer.object1.name} 자동 계산된 너비: {layer.layerWidth}");
                 }
                 else
                 {
                     Debug.LogWarning($"Renderer not found on {layer.object1.name}, 기본값 10 사용");
                     layer.layerWidth = 10f; // 기본값
                 }
-            }
-            else
-            {
-                Debug.Log($"{layer.object1.name} 수동 설정된 너비 사용: {layer.layerWidth}");
             }
             
             layer.isWidthCalculated = true;

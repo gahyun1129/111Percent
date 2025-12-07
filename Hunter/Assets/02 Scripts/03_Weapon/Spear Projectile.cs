@@ -2,7 +2,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Collider2D))]
 public class SpearProjectile : MonoBehaviour
 {
     [Header("🎯 References")]
@@ -153,6 +152,7 @@ public class SpearProjectile : MonoBehaviour
     {
         if (hasRicocheted) return;
         hasRicocheted = true;
+        // animator.SetTrigger("Fail");
 
         rb.velocity = new Vector2(
             -Mathf.Abs(transform.right.x) * 2f + ricochetForce.x,
@@ -182,7 +182,7 @@ public class SpearProjectile : MonoBehaviour
             isStuck = true;     // 로직 정지
 
             // 바닥에 누운 모양으로 회전 보정 (선택 사항)
-            transform.rotation = Quaternion.Euler(0, 0, 0); 
+             transform.rotation = Quaternion.Euler(0, 0, 0); 
             return;
         }
 

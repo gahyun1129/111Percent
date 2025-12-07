@@ -8,7 +8,7 @@ public class BearAttacker : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject dotPrefab;
     [SerializeField] private Transform throwPoint;
-    [SerializeField] private SpearProjectile projectilePrefab; // 타입을 BirdProjectile로 변경
+    [SerializeField] private SpearProjectile projectilePrefab;
 
     [Header("Control Feel (조작감)")]
     [Range(0.1f, 3.0f)]
